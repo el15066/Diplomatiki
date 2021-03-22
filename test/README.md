@@ -1,3 +1,5 @@
+# Specifications
+TODO
 
 ## Εκτέλεση/καταγραφή 3
 
@@ -29,3 +31,15 @@ zoom
 zoom
 ![](img/Write_pos_over_time_zoom2.png)
 
+#### Χρόνος σε εγγραφές ως προς συνολικό χρόνο
+
+Οριζόντιος άξονας: wall time (s)  
+Κατακόρυφος: time spent writing
+
+![](img/Sum_dt_over_time.png)
+zoom
+![](img/Sum_dt_over_time_zoom1.png)
+zoom
+![](img/Sum_dt_over_time_zoom2.png)
+zoom
+![](img/Sum_dt_over_time_zoom3.png)
