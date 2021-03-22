@@ -1,3 +1,4 @@
 
-Sector = 4096 Byte
-Time = seconds
+Sector: 4096 Byte
+
+Time: seconds
