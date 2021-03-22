@@ -72,7 +72,11 @@ Turbo-Geth and Stateless Ethereum, [Youtube](https://www.youtube.com/watch?v=3-M
 
 [Securing NATted IoT Devices Using Ethereum Blockchain and Distributed TURN Servers](https://www.researchgate.net/publication/332377235_Securing_NATted_IoT_Devices_Using_Ethereum_Blockchain_and_Distributed_TURN_Servers)  
 [Rewarding Relays for Decentralised NAT Traversal Using Smart Contracts](https://www.ee.ucl.ac.uk/~gpavlou/Publications/Conference-papers/Keizer-20.pdf)  
+[CloudAgora: Democratizing the Cloud](http://www.cslab.ece.ntua.gr/~doka/paper/cloudAgora.pdf)  
+[Building Ad-Hoc Clouds with CloudAgora](http://www.cslab.ece.ntua.gr/~doka/paper/cloudAgora_demo.pdf)  
+[Leveraging Blockchain Technology to Break the Cloud Computing Market Monopoly](https://www.mdpi.com/2073-431X/9/1/9)  
 
-# Tests
+---
 
+## [Tests](https://github.com/el15066/Diplomatiki/tree/main/test)
 
