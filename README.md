@@ -13,7 +13,9 @@
 ##### [On transaction parallelizability in Ethereum](https://arxiv.org/abs/1901.09942)
 Αυτό υποθέτει ότι υπάρχει ήδη γνώση για '[access lists](https://github.com/ethereum/sharding/blob/master/docs/doc.md#access-list)', λίστες που δείχνουν σε τι θέσεις μνήμης μπορεί να έχει πρόσβαση το κάθε transaction - (έχουν προταθεί αλλά δεν έχουν υλοποιηθεί ακόμα, μάλλον θα υπάρχουν στο Ethereum 2.0). Δοκιμάζει 2 schedulers που εγγυόνται ότι δεν θα υπάρχουν conflict. Οι μετρήσεις και εδώ γίνονται σε gas used (άρα ανεξάρτητες απ'το hardware). Συμαντική διαφορά με το προηγούμενο ότι δεν γίνονται roll-back.
 
-###### [Parallelilizing EVM through end-of-the-block virtual transactions](https://ethresear.ch/t/parallelilizing-evm-through-end-of-the-block-virtual-transactions/7787) (forum)
+##### Forum/blog
+
+###### [Parallelilizing EVM through end-of-the-block virtual transactions](https://ethresear.ch/t/parallelilizing-evm-through-end-of-the-block-virtual-transactions/7787)
 Μία άλλη μέθοδος που χωρίζει τα transactions σε νέα εικονικά, όταν καλείται κάποιο 3ο contract. Δεν δίνονται παραπάνω λεπτομέρειες/νούμερα κτλ. Γενικά μου φαίνεται παρόμοιο με το να έχει lock σε κάθε κλήση.
 
 Γενικώς με το θέμα της παραλληλοποίησης, δεν γνωρίζω τι επίπτωση θα έχει το Eth 2.0 όταν φτάσει (~ τέλος 2021, αρχές 2022), το οποίο θα περιέχει [sharding](https://ethereum.org/en/eth2/shard-chains/), με τις λεπτομέρεις να είναι ακόμα υπό εξέταση (πχ αν θα έχει access list).
