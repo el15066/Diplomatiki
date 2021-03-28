@@ -64,6 +64,9 @@ https://medium.com/@mandrigin/semi-stateless-initial-sync-experiment-897cc9c330c
 https://ledgerwatch.github.io/Ethereum_1_Research_topics.html#Stateless-Ethereum
 Turbo-Geth and Stateless Ethereum, [Youtube](https://www.youtube.com/watch?v=3-Mn7OckSus), [Slides](https://github.com/AlexeyAkhunov/papers/blob/master/Turbo-Geth_Stateless-Ethereum_EthCC-2020.pdf)
 
+
+### [Tests](https://github.com/el15066/Diplomatiki/tree/main/bc_sync/test)
+
 ---
 
 ## Blockchain marketplace
@@ -77,6 +80,3 @@ Turbo-Geth and Stateless Ethereum, [Youtube](https://www.youtube.com/watch?v=3-M
 [Leveraging Blockchain Technology to Break the Cloud Computing Market Monopoly](https://www.mdpi.com/2073-431X/9/1/9)  
 
 ---
-
-## [Tests](https://github.com/el15066/Diplomatiki/tree/main/test)
-
