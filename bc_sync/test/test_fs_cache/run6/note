@@ -1,0 +1,4 @@
+Rerun just after stopping run5, without clearing any fs caches.
+The execution results from the previous run were (partially?) lost, as turbo-geth saves to DB only every 1 hour (during this stage),
+so the next run started from the same block as the previous.
+For the first 2 minutes, the execution was cpu-bound (almost no disk activity).
