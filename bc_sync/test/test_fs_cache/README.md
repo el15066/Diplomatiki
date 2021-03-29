@@ -15,6 +15,8 @@ run1  | 0.5Gz
 run2  | 8Gz
 run3  | 8G
 run4  | 4Gz
+run5  | 10G
+run6  | 10G (no cache clear)
 
 (..z == compression enabled)
 
