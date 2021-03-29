@@ -26,7 +26,7 @@ To tg παίρνει περίπου 1-1.5GiB.
 ### Χρόνος εκτέλεσης
 
 Από το log που βγάζει το tg, έχουμε κάθε 30 δευτ. τον αριθμό του block στο οποίο έχει φτάσει.
-![](blocks_over_time.png)
+![](https://raw.githubusercontent.com/el15066/Diplomatiki/main/bc_sync/test/test_fs_cache/blocks_over_time.png)
 
 To 10Ghot είναι εκτέλεση που έγινε μετά αφότου σταμάτησε η προηγούμενη (arc 10GiB) χωρίς να καθαριστούν οι cache.  
 Τα πρώτα λεπτά ήταν κυρίως cpu bound με ελάχιστο disk io.
