@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 
 import os
 import sys
@@ -129,12 +130,31 @@ def main(ifname, ofname):
                 #
                 for line in fi:
                     if 'bin/erigon --' in line: break
+                    if 'Build info'    in line: break
                 else:
                     break
                 #
+                rows       = []
+                data       = { 'rows': rows }
+                res.append(data)
+                row        = {}
+                row_values = {}
+                #
                 assert line == fi.latest()
-                a, _, b = line.partition('$ ')
-                cmd = b if b else a
+                if 'bin/erigon --' in line:
+                    a, _, b = line.partition('$ ')
+                    cmd = b if b else a
+                    data['cmd'] = cmd[:-1]
+                else:
+                    fi.rev()
+                #
+                for line in fi:
+                    if 'bin/erigon --' in line: raise ValueError('Expected "Build info" after cmd: ' + data.get('cmd'))
+                    if 'Build info'    in line:
+                        process_build_info_line(line, data)
+                        break
+                else:
+                    break
                 #
                 # for line in fi:
                 #     if 'route@cf0:' in line: break
@@ -150,17 +170,12 @@ def main(ifname, ofname):
                 #     break
                 # fi.rev()
                 #
-                rows       = []
-                data       = { 'rows': rows, 'cmd': cmd[:-1] }
-                res.append(data)
-                row        = {}
-                row_values = {}
                 for line in fi:
                     if line[  :2] == '^C': line = line[2:]
                     if line[-1: ] == '\n': line = line[:-1]
                     if   'bin/erigon --'    in line: break
                     elif 'Got interrupt'    in line: break
-                    elif 'Build info'       in line: process_build_info_line(line, data)
+                    elif 'Build info'       in line: break
                     elif 'Blocks execution' in line: process_start_line(line, data)
                     elif 'Globals'          in line: process_globals_line(line, data)
                     elif 'Executed blocks'  in line:
@@ -196,7 +211,7 @@ def main(ifname, ofname):
                     data['t1'] = extract_timestamp_ms(line)
                 #
         except:
-            print(fi.latest(), file=sys.stderr)
+            print('At line ' + repr(fi.latest()), file=sys.stderr)
             raise
     #
     for i, data in enumerate(res):
