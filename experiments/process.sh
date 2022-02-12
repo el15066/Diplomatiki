@@ -1,4 +1,4 @@
-#!/bin/bash -vx
+#!/bin/bash -x
 
 for RUN in $@; do
 
