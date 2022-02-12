@@ -1,22 +1,36 @@
 #!/usr/bin/python3
 
-recs = {}
+from collections import defaultdict
 
-try:
-    while True:
-        line = input()
-        line, _, num = line.rpartition(' ')
-        if not line: continue
-        num = int(num)
-        ps  = line.split(';')
-        ps.reverse()
-        ps  = tuple(ps)
-        tot = recs.get(ps, 0)
-        recs[ps] = tot + num
-except EOFError:
-    pass
+def processStack(parts):
+    parts.reverse()
+    return parts
 
-recs = list(recs.items())
-recs.sort()
-for k, v in recs:
-    print(';'.join(k), v)
+
+
+
+
+
+
+def main(ifname):
+    recs = defaultdict(int)
+    #
+    with open(ifname) as fi:
+        for line in fi:
+            stack, _, _n = line.rpartition(' ')
+            if not stack: continue
+            n  = int(_n)
+            ps = processStack(stack.split(';'))
+            #
+            recs[tuple(ps)] += n
+    #
+    res = list(recs.items())
+    res.sort()
+    for k, v in res:
+        print(';'.join(k), v)
+
+
+if __name__ == '__main__':
+    import sys
+    ifname = sys.argv[1]
+    main(ifname=ifname)
