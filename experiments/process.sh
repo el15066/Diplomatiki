@@ -6,7 +6,8 @@ for RUN in $@; do
 ~/git/FlameGraph/stackcollapse-perf.pl       "$RUN/perf.txt"                  >"$RUN/folded.txt"
 ~/el15066/Diplomatiki/tools/stack_rev.py     "$RUN/folded.txt"                >"$RUN/stack_rev.txt"
 ~/el15066/Diplomatiki/tools/stack_uncycle.py "$RUN/folded.txt"                >"$RUN/stack_uncycle.txt"
-~/el15066/Diplomatiki/tools/stack_uncycle.py "$RUN/stack_rev.txt"             >"$RUN/stack_rev_uncycle.txt" &&
+~/el15066/Diplomatiki/tools/stack_uncycle.py "$RUN/stack_rev.txt"             >"$RUN/stack_rev_uncycle.txt"
+~/el15066/Diplomatiki/tools/stack_rev.py     "$RUN/stack_uncycle.txt"         >"$RUN/stack_uncycle_rev.txt" &&
 
 chmod  -w -R "$RUN/" &&
 chmod u+w    "$RUN/" "$RUN/README.md"
