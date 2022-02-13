@@ -7,9 +7,13 @@ for RUN in $@; do
 ~/el15066/Diplomatiki/tools/stack_rev.py     "$RUN/folded.txt"                >"$RUN/stack_rev.txt"
 ~/el15066/Diplomatiki/tools/stack_uncycle.py "$RUN/folded.txt"                >"$RUN/stack_uncycle.txt"
 ~/el15066/Diplomatiki/tools/stack_uncycle.py "$RUN/stack_rev.txt"             >"$RUN/stack_rev_uncycle.txt"
-~/el15066/Diplomatiki/tools/stack_rev.py     "$RUN/stack_uncycle.txt"         >"$RUN/stack_uncycle_rev.txt" &&
+~/el15066/Diplomatiki/tools/stack_rev.py     "$RUN/stack_uncycle.txt"         >"$RUN/stack_uncycle_rev.txt"
 
 chmod  -w -R "$RUN/" &&
-chmod u+w    "$RUN/" "$RUN/README.md"
+chmod u+w    "$RUN/" "$RUN/README.md" &&
+
+RUN_="${RUN////_}" &&
+ln -s "$RUN/stack_uncycle.txt"     "${RUN_}_u.txt" &&
+ln -s "$RUN/stack_uncycle_rev.txt" "${RUN_}_ur.txt"
 
 done
