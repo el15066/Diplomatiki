@@ -1,0 +1,96 @@
+[INFO] [02-13|18:57:44.980] Build info                               git_branch=inline_uv git_tag=v2021.08.05-190-g4d9278246 git_commit=4d927824671b925e731b9e62e97543be2492628e
+[INFO] [02-13|18:57:44.980] Starting Erigon on Ethereum mainnet... 
+[INFO] [02-13|18:57:44.981] Maximum peer count                       ETH=100 total=100
+[INFO] [02-13|18:57:44.981] Set global gas cap                       cap=50000000
+[INFO] [02-13|18:57:45.022] Opening Database                         label=chaindata path=/media/route/sx8200/erigon/data/chaindata
+[INFO] [02-13|18:57:45.023] database closed                          label=chaindata
+[INFO] [02-13|18:57:45.023] Opening Database                         label=chaindata path=/media/route/sx8200/erigon/data/chaindata
+[INFO] [02-13|18:57:45.024] Initialised chain configuration          config="{ChainID: 1 Homestead: 1150000 DAO: 1920000 DAOSupport: true EIP150: 2463000 EIP155: 2675000 EIP158: 2675000 Byzantium: 4370000 Constantinople: 7280000 Petersburg: 7280000 Istanbul: 9069000, Muir Glacier: 9200000, Berlin: 12244000, London: 12965000, Engine: ethash}"
+[INFO] [02-13|18:57:45.024] Disk storage enabled for ethash DAGs     dir=/media/route/sx8200/erigon/ethash count=2
+[INFO] [02-13|18:57:45.024] Initialising Ethereum protocol           network=1
+[INFO] [02-13|18:57:45.024] Effective                                prune="--prune="
+[INFO] [02-13|18:57:45.024] Starting private RPC server              on=127.0.0.1:9090
+[INFO] [02-13|18:57:45.468] Stage Headers                   (Download headers) 
+[INFO] [02-13|18:57:45.468] Stage Headers                   Done 
+[INFO] [02-13|18:57:45.468] Stage BlockHashes               (Write block hashes) 
+[INFO] [02-13|18:57:45.468] Stage BlockHashes               Done 
+[INFO] [02-13|18:57:45.468] Stage CreateHeadersSnapshot     disabled. Enable by --snapshot.layout 
+[INFO] [02-13|18:57:45.468] Stage Bodies                    (Download block bodies) 
+[INFO] [02-13|18:57:45.468] Stage Bodies                    Done 
+[INFO] [02-13|18:57:45.468] Stage CreateBodiesSnapshot      disabled. Enable by --snapshot.layout 
+[INFO] [02-13|18:57:45.468] Stage Senders                   (Recover senders from tx signatures) 
+[INFO] [02-13|18:57:45.468] Stage Senders                   Done 
+[INFO] [02-13|18:57:45.468] Stage Execution                 (Execute blocks w/o hash checks) 
+[INFO] [02-13|18:57:45.469] [7/18 Execution] Blocks execution        from=10499999 to=10504999
+[INFO] [02-13|18:57:45.469] Globals                                  STORAGE_TRACING=false PREFETCH_TRACING=false TX_DUMPING=false CODE_DUMPING=false JUMP_TRACING=false PREFETCH_BLOCKS=false BLOCK_READAHEAD=2 PREFETCH_ACCOUNTS=false PREFETCH_CODE=false USE_PREDICTORS=false USE_STORAGE_PREFETCH_FILE=false TRACE_PREDICTED=false PREDICTOR_CACHE_SIZE=256 PREDICTOR_INITIAL_GAZ=10000 PREDICTOR_RESERVE_GAZ_DIV=4 PREDICTOR_CALL_GAZ_BONUS=0 DEBUG_TX=false DEBUG_TX_BLOCK=7504466 DEBUG_TX_INDEX=62 PREDICTOR_DB_PATH=dbdir/predictorDB_new
+[INFO] [02-13|18:57:45.472] Started P2P networking                   version=65 self="enode://cf90152aad373d1608af933850566e82f8ad78089ffe361b9f94664a081ba07596b6dbf4b38dfdde9f4a7470414f76c803b66ad56e4920db7bb09fa445d3c458@127.0.0.1:30304?discport=0" name=erigon/v2021.08.5-alpha-4d927824/linux-amd64/go1.16.14
+[INFO] [02-13|18:57:45.473] Started P2P networking                   version=66 self="enode://cf90152aad373d1608af933850566e82f8ad78089ffe361b9f94664a081ba07596b6dbf4b38dfdde9f4a7470414f76c803b66ad56e4920db7bb09fa445d3c458@127.0.0.1:30123?discport=0" name=erigon/v2021.08.5-alpha-4d927824/linux-amd64/go1.16.14
+[INFO] [02-13|18:58:15.485] [7/18 Execution] Executed blocks         number=10501566 blk/s=52.205 tx/s=9955.821 Mgas/s=601.522 batch="25.73 MiB" alloc="162.76 MiB" sys="347.47 MiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0         242129           1567         379417
+   4-   3       18912230           1567       29635464
+  10-   9             34           1566             53
+  11-  10            113           1566            178
+  12-  11            -78           1566           -122
+  51-  50          61558         678995       41798209
+  61-  60           3141         519282        1631107
+  62-  61 N/A
+  63-  62           2420        1343121        3251657
+  64-  63 N/A
+  65-  64           1686         267022         450438
+  66-  65 N/A
+  67-  66           4347           6250          27171
+  71-  70           1815        1429762        2596011
+[INFO] [02-13|18:58:45.484] [7/18 Execution] Executed blocks         number=10503115 blk/s=51.635 tx/s=9961.545 Mgas/s=583.913 batch="47.42 MiB" alloc="253.06 MiB" sys="481.51 MiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0         246691           3116         768690
+   4-   3       19012740           3116       59243700
+  10-   9             34           3115            107
+  11-  10            119           3115            373
+  12-  11            -84           3115           -261
+  51-  50          61820        1333730       82451643
+  61-  60           3253        1048549        3411226
+  62-  61 N/A
+  63-  62           2504        2664940        6673635
+  64-  63 N/A
+  65-  64           1723         533507         919681
+  66-  65 N/A
+  67-  66           4703           7631          35894
+  71-  70           1775        2743795        4870541
+[INFO] [02-13|18:59:15.475] [7/18 Execution] Executed blocks         number=10504608 blk/s=49.782 tx/s=8399.921 Mgas/s=559.497 batch="67.90 MiB" alloc="256.85 MiB" sys="550.57 MiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0         240680           4609        1109296
+   4-   3       19286707           4609       88892434
+  10-   9             34           4608            159
+  11-  10            124           4608            573
+  12-  11            -88           4608           -407
+  51-  50          63484        2013856      127849180
+  61-  60           3344        1547477        5175065
+  62-  61 N/A
+  63-  62           2546        3993365       10170448
+  64-  63 N/A
+  65-  64           1752         819017        1435338
+  66-  65 N/A
+  67-  66           4998           9331          46642
+  71-  70           1744        4064088        7090344
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0         239002           5000        1195010
+   4-   3       19391269           5000       96956346
+  10-   9             34           5000            172
+  11-  10            124           5000            624
+  12-  11            -88           5000           -444
+  51-  50          63851        2209895      141105219
+  61-  60           3366        1679511        5654806
+  62-  61 N/A
+  63-  62           2551        4364963       11136463
+  64-  63 N/A
+  65-  64           1758         903289        1588370
+  66-  65 N/A
+  67-  66           5043          10245          51675
+  71-  70           1734        4436230        7696002
+[INFO] [02-13|18:59:23.625] Got interrupt, shutting down... 
+[INFO] [02-13|18:59:23.676] Successfully update p2p node database    path=/media/route/sx8200/erigon/data/nodes/eth66 updated=0 deleted=1
+[INFO] [02-13|18:59:23.684] database closed                          label=sentry
+[INFO] [02-13|18:59:23.684] Successfully update p2p node database    path=/media/route/sx8200/erigon/data/nodes/eth65 updated=0 deleted=1
+[INFO] [02-13|18:59:23.684] database closed                          label=sentry
+[INFO] [02-13|18:59:23.827] database closed                          label=chaindata
