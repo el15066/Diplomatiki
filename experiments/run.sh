@@ -26,7 +26,7 @@ sleep 1
 
 D="'$(bc <<< "$T1-$T0")'"
 
-printf "'"Wall time: $D seconds"'"'"'\n```'"' >>'../experiments/$RUN/README.md'
+printf "'"Wall time: $D seconds\n"'"'"'```\n'"' >>'../experiments/$RUN/README.md'
 
 cp -i /tmp2/p           '../experiments/$RUN/perf.data'
 perf script -i /tmp2/p >'../experiments/$RUN/perf.txt'
