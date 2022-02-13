@@ -28,8 +28,12 @@ D="'$(bc <<< "$T1-$T0")'"
 
 printf "'"Wall time: $D seconds\n"'"'"'```\n'"' >>'../experiments/$RUN/README.md'
 
-cp -i /tmp2/p           '../experiments/$RUN/perf.data'
-perf script -i /tmp2/p >'../experiments/$RUN/perf.txt'
-chown 1000:1000 -R      '../experiments/$RUN/'
+perf script                     -i /tmp2/p                    >/tmp2/t &&
+../Diplomatiki/tools/foldstacks.py /tmp2/t ./build/bin/erigon >/tmp2/f || exit 4
+
+cp -i /tmp2/p      '../experiments/$RUN/perf.data'  &&
+cp    /tmp2/t      '../experiments/$RUN/perf.txt'   &&
+cp    /tmp2/f      '../experiments/$RUN/folded.txt' &&
+chown 1000:1000 -R '../experiments/$RUN/'
 "
 ssh "$HOST" "sudo bash -xc $CMD"
