@@ -35,9 +35,9 @@ perf script --header-only -I                                 -i /tmp2/p | grep -
 perf script -F comm,pid,tid,cpu,time,period,event,ip,sym,dso -i /tmp2/p                       >/tmp2/t  &&
 ../Diplomatiki/tools/foldstacks.py                              /tmp2/t ./build/bin/erigon    >/tmp2/f  || exit 40
 
-cp -i /tmp2/p      '../experiments/$RUN/perf.data'     &&
-cp    /tmp2/th     '../experiments/$RUN/perf_info.txt' &&
-cp    /tmp2/f      '../experiments/$RUN/folded.txt'    &&
+#cp -i /tmp2/p      '../experiments/$RUN/perf.data'     &&
+cp -i /tmp2/th     '../experiments/$RUN/perf_info.txt' &&
+cp -i /tmp2/f      '../experiments/$RUN/folded.txt'    &&
 chown 1000:1000 -R  ../experiments/
 "
 ssh "$HOST" "sudo bash -xc $CMD"
