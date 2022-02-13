@@ -1,4 +1,4 @@
-                                         Name                                         | Shared |   %   |  Own  |   %
+Name                                                                                  | Shared |   %   |  Own  |   %
 --------------------------------------------------------------------------------------|--------|-------|-------|------
 runtime.greyobject                                                                    |  14463 |  13.6 | 14073 |  13.2
 github.com/ledgerwatch/erigon/core/vm.(*EVMInterpreter).Run                           |  37716 |  35.4 | 10262 |   9.6

@@ -15,7 +15,7 @@ PID/TID switch overriding SYSTEM
 
 #### stack_top_own
 
-                                         Name                                         | Shared |   %   |  Own  |   %
+Name                                                                                  | Shared |   %   |  Own  |   %
 --------------------------------------------------------------------------------------|--------|-------|-------|------
 runtime.findObject                                                                    |  11030 |  11.2 | 10975 |  11.1
 github.com/ledgerwatch/erigon/core/vm.(*EVMInterpreter).Run                           |  39058 |  39.7 | 10603 |  10.8

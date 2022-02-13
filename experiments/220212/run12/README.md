@@ -14,7 +14,7 @@ Command terminated by signal 2
 
 #### stack_top_own
 
-                                         Name                                         | Shared |   %   | Own  |   %
+Name                                                                                  | Shared |   %   | Own  |   %
 --------------------------------------------------------------------------------------|--------|-------|------|------
 github.com/ledgerwatch/erigon/core/vm.(*EVMInterpreter).Run                           |   5829 |  55.5 | 1871 |  17.8
 golang.org/x/crypto/sha3.keccakF1600                                                  |    780 |   7.4 |  779 |   7.4

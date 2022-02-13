@@ -8,7 +8,7 @@ Wall time: 98.800 seconds
 
 #### stack_top_own
 
-                                         Name                                         | Shared |   %   | Own  |   %
+Name                                                                                  | Shared |   %   | Own  |   %
 --------------------------------------------------------------------------------------|--------|-------|------|------
 github.com/ledgerwatch/erigon/core/vm.(*EVMInterpreter).Run                           |   9089 |  47.2 | 2482 |  12.9
 golang.org/x/crypto/sha3.keccakF1600                                                  |   1600 |   8.3 | 1595 |   8.3

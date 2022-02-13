@@ -43,10 +43,10 @@ def main(ifname, sort_by):
     l_max_s = max(len(str(max(s  for _, s, _ in res))), len(label_s))
     l_max_o = max(len(str(max(o  for _, _, o in res))), len(label_o))
     #
-    print(label_k.center(l_max_k) + ' | ' + label_s.center(l_max_s) +  ' | '  +  '  %  '  +  ' | ' + label_o.center(l_max_o) +  ' | '  +  '  %'         )
+    print(label_k.ljust(l_max_k) + ' | ' + label_s.center(l_max_s) +  ' | '  +  '  %  '  +  ' | ' + label_o.center(l_max_o) +  ' | '  +  '  %'         )
     print(        '-' * l_max_k  + '-|-' +          '-' * l_max_s  +  '-|-'  +  '-----'  +  '-|-' +          '-' * l_max_o  +  '-|-'  +  '-----'       )
     for k, s, o in res:
-        print(   k.ljust(l_max_k) + ' | ' +   str(s).rjust(l_max_s) + f' | { 100*s/total:5.1f} | ' +   str(o).rjust(l_max_o) + f' | { 100*o/total:5.1f}')
+        print(  k.ljust(l_max_k) + ' | ' +   str(s).rjust(l_max_s) + f' | { 100*s/total:5.1f} | ' +   str(o).rjust(l_max_o) + f' | { 100*o/total:5.1f}')
 
 if __name__ == '__main__':
     import sys

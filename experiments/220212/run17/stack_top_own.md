@@ -1,4 +1,4 @@
-                                         Name                                         | Shared |   %   | Own  |   %
+Name                                                                                  | Shared |   %   | Own  |   %
 --------------------------------------------------------------------------------------|--------|-------|------|------
 github.com/ledgerwatch/erigon/core/vm.(*EVMInterpreter).Run                           |   5907 |  55.8 | 1824 |  17.2
 golang.org/x/crypto/sha3.keccakF1600                                                  |    788 |   7.4 |  787 |   7.4
