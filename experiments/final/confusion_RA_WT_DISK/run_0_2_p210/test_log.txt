@@ -1,0 +1,530 @@
+
+
+for c in 3 4 5 15 16 17; do cpufreq-set -c $c -f 3.8GHz || exit 10; done
++ for c in 3 4 5 15 16 17
++ cpufreq-set -c 3 -f 3.8GHz
++ for c in 3 4 5 15 16 17
++ cpufreq-set -c 4 -f 3.8GHz
++ for c in 3 4 5 15 16 17
++ cpufreq-set -c 5 -f 3.8GHz
++ for c in 3 4 5 15 16 17
++ cpufreq-set -c 15 -f 3.8GHz
++ for c in 3 4 5 15 16 17
++ cpufreq-set -c 16 -f 3.8GHz
++ for c in 3 4 5 15 16 17
++ cpufreq-set -c 17 -f 3.8GHz
+
+# Prep
+cd el15066/erigon/
++ cd el15066/erigon/
+mkdir '../experiments/final/confusion_RA_WT_DISK/run_0_2_p210/' || true
++ mkdir ../experiments/final/confusion_RA_WT_DISK/run_0_2_p210/
+
+# Globals
+cat common/globals_test_confusion_RA_WT.go.template |
+  sed 's/%RA/0/g' |
+  sed 's/%WT/2/g' |
+tee common/globals.go
++ cat common/globals_test_confusion_RA_WT.go.template
++ sed s/%RA/0/g
++ sed s/%WT/2/g
++ tee common/globals.go
+
+package common
+
+const MAX_BLOCK = 10_500_000 - 1 + 10_000
+
+const  STORAGE_TRACING = false
+const       TX_DUMPING = false
+const     CODE_DUMPING = false
+const     JUMP_TRACING = false
+
+const PREFETCH_BLOCKS           = true
+const BLOCK_READAHEAD           = 0
+const PREFETCH_ACCOUNTS         = true
+const PREFETCH_CODE             = true
+const USE_PREDICTORS            = true
+const USE_STORAGE_PREFETCH_FILE = false
+
+const PREFETCH_WORKERS_COUNT = 2
+
+const TRACE_PREDICTED = true
+
+const DEBUG_TX       = false
+const DEBUG_TX_BLOCK = 0
+const DEBUG_TX_INDEX = 0
+
+const PREDICTOR_CACHE_SIZE      = 1024
+const PREDICTOR_GAS_TO_GAZ_RATE = 64 // div 1024
+const PREDICTOR_CALL_GAZ_BONUS  = 0
+const PREDICTOR_RESERVE_GAZ_DIV = 2
+const PREDICTOR_DB_PATH         = "dbdir/predictorDB_new"
+
+
+
+// if CODE_DUMPING {
+var CONTRACT_CODE       = map[Hash][]byte{}
+var CONTRACT_CODE_COUNT = map[Hash]uint{}
+var CONTRACT_CODE_ALIAS = map[Address]Hash{}
+// }
+
+var CALLID         = -1 // JUMP_TRACING
+var CALLID_COUNTER =  0 // JUMP_TRACING
+
+// if JUMP_TRACING {
+var JUMP_COUNT         = map[Hash]uint{}
+var JUMP_CALLS         = map[Hash]map[int]struct{}{}
+var JUMP_DST_CALLCOUNT = map[Hash]map[uint32]map[uint32]map[int]uint{}
+// }
+
+# Disk
+rm dbdir
++ rm dbdir
+ln -s '/media/route/p210/' dbdir
++ ln -s /media/route/p210/ dbdir
+
+# Caches
+echo 3 >/proc/sys/vm/drop_caches
++ echo 3
+
+# Make
+sudo -u '#1000' make erigon
++ sudo -u '#1000' make erigon
+Building Erigon
+rm -f /home/route/el15066/erigon/build/bin/tg # Remove old binary to prevent confusion where users still use it because of the scripts
+env GO111MODULE=on go build -trimpath -ldflags "-X github.com/ledgerwatch/erigon/params.GitCommit=d86c2ad2053900240ef50fafa52e222b5618b6fc -X github.com/ledgerwatch/erigon/params.GitBranch=inline_uv -X github.com/ledgerwatch/erigon/params.GitTag=v2021.08.05-358-gd86c2ad20" -o /home/route/el15066/erigon/build/bin/erigon ./cmd/erigon
+Done building.
+Run "/home/route/el15066/erigon/build/bin/erigon" to launch Erigon.
+
+# Sleep
+sleep 123
++ sleep 123
+
+# Run
+_T0=$(date +%s.%3N)
+++ date +%s.%3N
++ _T0=1645287727.305
+nice --10 taskset -c 3-5,16-17 ./build/bin/erigon --datadir dbdir/erigon/data/ --ethash.dagdir dbdir/erigon/ethash/ --nodiscover --port 30123 |& tee -i '../experiments/final/confusion_RA_WT_DISK/run_0_2_p210/erigon_log.txt'
++ nice --10 taskset -c 3-5,16-17 ./build/bin/erigon --datadir dbdir/erigon/data/ --ethash.dagdir dbdir/erigon/ethash/ --nodiscover --port 30123
++ tee -i ../experiments/final/confusion_RA_WT_DISK/run_0_2_p210/erigon_log.txt
+[INFO] [02-19|16:22:07.357] Build info                               git_branch=inline_uv git_tag=v2021.08.05-358-gd86c2ad20 git_commit=d86c2ad2053900240ef50fafa52e222b5618b6fc
+[INFO] [02-19|16:22:07.358] Starting Erigon on Ethereum mainnet... 
+[INFO] [02-19|16:22:07.359] Maximum peer count                       ETH=100 total=100
+[INFO] [02-19|16:22:07.359] Set global gas cap                       cap=50000000
+[INFO] [02-19|16:22:07.398] Opening Database                         label=chaindata path=dbdir/erigon/data/chaindata
+[INFO] [02-19|16:22:07.402] database closed                          label=chaindata
+[INFO] [02-19|16:22:07.402] Opening Database                         label=chaindata path=/home/route/el15066/erigon/dbdir/erigon/data/chaindata
+[INFO] [02-19|16:22:07.406] Initialised chain configuration          config="{ChainID: 1 Homestead: 1150000 DAO: 1920000 DAOSupport: true EIP150: 2463000 EIP155: 2675000 EIP158: 2675000 Byzantium: 4370000 Constantinople: 7280000 Petersburg: 7280000 Istanbul: 9069000, Muir Glacier: 9200000, Berlin: 12244000, London: 12965000, Engine: ethash}"
+[INFO] [02-19|16:22:07.406] Disk storage enabled for ethash DAGs     dir=dbdir/erigon/ethash count=2
+[INFO] [02-19|16:22:07.406] Initialising Ethereum protocol           network=1
+[INFO] [02-19|16:22:07.406] Effective                                prune="--prune="
+[INFO] [02-19|16:22:07.406] Starting private RPC server              on=127.0.0.1:9090
+[INFO] [02-19|16:22:08.950] Stage Headers                   (Download headers) 
+[INFO] [02-19|16:22:08.950] Stage Headers                   Done 
+[INFO] [02-19|16:22:08.950] Stage BlockHashes               (Write block hashes) 
+[INFO] [02-19|16:22:08.950] Stage BlockHashes               Done 
+[INFO] [02-19|16:22:08.950] Stage CreateHeadersSnapshot     disabled. Enable by --snapshot.layout 
+[INFO] [02-19|16:22:08.950] Stage Bodies                    (Download block bodies) 
+[INFO] [02-19|16:22:08.950] Stage Bodies                    Done 
+[INFO] [02-19|16:22:08.950] Stage CreateBodiesSnapshot      disabled. Enable by --snapshot.layout 
+[INFO] [02-19|16:22:08.950] Stage Senders                   (Recover senders from tx signatures) 
+[INFO] [02-19|16:22:08.950] Stage Senders                   Done 
+[INFO] [02-19|16:22:08.950] Stage Execution                 (Execute blocks w/o hash checks) 
+[INFO] [02-19|16:22:08.950] [7/18 Execution] Blocks execution        from=10499999 to=10509999
+[INFO] [02-19|16:22:08.950] Globals                                  STORAGE_TRACING=false TX_DUMPING=false CODE_DUMPING=false JUMP_TRACING=false PREFETCH_BLOCKS=true BLOCK_READAHEAD=0 PREFETCH_ACCOUNTS=true PREFETCH_CODE=true USE_PREDICTORS=true USE_STORAGE_PREFETCH_FILE=false PREFETCH_WORKERS_COUNT=2 TRACE_PREDICTED=true DEBUG_TX=false DEBUG_TX_BLOCK=0 DEBUG_TX_INDEX=0 PREDICTOR_CACHE_SIZE=1024 PREDICTOR_GAS_TO_GAZ_RATE=64 PREDICTOR_RESERVE_GAZ_DIV=2 PREDICTOR_CALL_GAZ_BONUS=0 PREDICTOR_DB_PATH=dbdir/predictorDB_new
+[INFO] [02-19|16:22:08.964] Opened database                          package=predictorDB info=/home/route/el15066/erigon/symbolic/sandbox/envon_test/code//,0f5d3b1_10500K
+[INFO] [02-19|16:22:08.971] Started P2P networking                   version=65 self="enode://cf90152aad373d1608af933850566e82f8ad78089ffe361b9f94664a081ba07596b6dbf4b38dfdde9f4a7470414f76c803b66ad56e4920db7bb09fa445d3c458@127.0.0.1:30304?discport=0" name=erigon/v2021.08.5-alpha-d86c2ad2/linux-amd64/go1.16.14
+[INFO] [02-19|16:22:08.975] Started P2P networking                   version=66 self="enode://cf90152aad373d1608af933850566e82f8ad78089ffe361b9f94664a081ba07596b6dbf4b38dfdde9f4a7470414f76c803b66ad56e4920db7bb09fa445d3c458@127.0.0.1:30123?discport=0" name=erigon/v2021.08.5-alpha-d86c2ad2/linux-amd64/go1.16.14
+[INFO] [02-19|16:22:38.957] [7/18 Execution] Executed blocks         number=10500684 blk/s=22.828 tx/s=4463.603 Mgas/s=265.760 batch="19.68 MiB" alloc="377.85 MiB" sys="476.41 MiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0         123175            685          84374
+   4-   3       43681744            685       29921994
+   9-   8             98            684             67
+  10-   9             24            684             16
+  11-  10             24            684             17
+  99-  98 N/A
+ 100-  99 N/A
+ 101- 100          52566         133881        7037635
+ 106- 105          59020         132254        7805754
+ 111- 110           8086          96552         780773
+ 112- 111 N/A
+ 131- 130 N/A
+ 141- 140           1187           1338           1588
+[INFO] [02-19|16:23:08.979] [7/18 Execution] Executed blocks         number=10501689 blk/s=33.475 tx/s=6340.437 Mgas/s=384.056 batch="44.57 MiB" alloc="309.81 MiB" sys="544.60 MiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0         141130           1690         238509
+   4-   3       35378040           1690       59788887
+   9-   8            102           1689            172
+  10-   9             24           1689             41
+  11-  10             24           1689             42
+  99-  98         142261         324292       46134381
+ 100-  99         -17965         324292       -5826225
+ 101- 100          37918         324292       12296637
+ 106- 105          50005         320658       16034542
+ 111- 110           5427         230363        1250352
+ 112- 111         264940         230363       61032393
+ 131- 130       28103172           1642       46145409
+ 141- 140           1209           3274           3959
+[INFO] [02-19|16:23:38.956] [7/18 Execution] Executed blocks         number=10502847 blk/s=38.630 tx/s=7484.784 Mgas/s=436.816 batch="70.95 MiB" alloc="368.32 MiB" sys="612.76 MiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0         112086           2848         319223
+   4-   3       31489993           2848       89683500
+   9-   8            103           2847            295
+  10-   9             24           2847             69
+  11-  10             25           2847             71
+  99-  98         124068         548659       68071197
+ 100-  99         -17653         548659       -9685813
+ 101- 100          32003         548659       17559236
+ 106- 105          46993         542778       25506915
+ 111- 110           4483         378195        1695760
+ 112- 111         233153         378195       88177666
+ 131- 130       24661273           2761       68089776
+ 141- 140           1219           5510           6717
+[INFO] [02-19|16:24:07.407] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-19|16:24:08.957] [7/18 Execution] Executed blocks         number=10504059 blk/s=40.398 tx/s=7108.568 Mgas/s=451.166 batch="97.01 MiB" alloc="381.76 MiB" sys="747.33 MiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0         101591           4060         412460
+   4-   3       29455896           4060      119590941
+   9-   8            104           4059            425
+  10-   9             24           4059             99
+  11-  10             25           4059            101
+  99-  98         115755         761929       88197289
+ 100-  99         -17603         761929      -13412848
+ 101- 100          29056         761929       22139320
+ 106- 105          44446         753914       33508503
+ 111- 110           3978         520522        2071058
+ 112- 111         218846         520522      113914521
+ 131- 130       22477216           3925       88223075
+ 141- 140           1251           7837           9809
+[INFO] [02-19|16:24:38.966] [7/18 Execution] Executed blocks         number=10505281 blk/s=40.722 tx/s=6290.741 Mgas/s=467.489 batch="125.13 MiB" alloc="573.13 MiB" sys="815.39 MiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0          97515           5282         515074
+   4-   3       28302865           5282      149495735
+   9-   8            103           5281            546
+  10-   9             24           5281            129
+  11-  10             24           5281            131
+  99-  98         113021         950705      107449695
+ 100-  99         -17731         950705      -16857569
+ 101- 100          27362         950705       26013350
+ 106- 105          42370         940001       39828127
+ 111- 110           3701         648235        2399168
+ 112- 111         216842         648235      140565093
+ 131- 130       21033657           5110      107481990
+ 141- 140           1284          10206          13106
+[INFO] [02-19|16:25:08.959] [7/18 Execution] Executed blocks         number=10506510 blk/s=40.976 tx/s=6621.602 Mgas/s=474.126 batch="155.15 MiB" alloc="673.14 MiB" sys="884.58 MiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0          89911           6511         585414
+   4-   3       27556091           6511      179417713
+   9-   8            103           6510            671
+  10-   9             24           6510            159
+  11-  10             25           6510            166
+  99-  98         108774        1149310      125015735
+ 100-  99         -17645        1149310      -20279793
+ 101- 100          25975        1149310       29854214
+ 106- 105          40662        1136176       46199552
+ 111- 110           3497         782035        2735454
+ 112- 111         209249         782035      163640675
+ 131- 130       19821657           6309      125054837
+ 141- 140           1318          12604          16617
+[INFO] [02-19|16:25:38.957] [7/18 Execution] Executed blocks         number=10507799 blk/s=42.970 tx/s=8470.470 Mgas/s=493.048 batch="180.46 MiB" alloc="519.17 MiB" sys="1018.83 MiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0          97031           7800         756847
+   4-   3       26825987           7800      209242703
+   9-   8            103           7799            803
+  10-   9             24           7799            190
+  11-  10             25           7799            198
+  99-  98         100920        1403404      141632344
+ 100-  99         -16992        1403404      -23847751
+ 101- 100          23942        1403404       33600409
+ 106- 105          37942        1386906       52622476
+ 111- 110           3240         958541        3106514
+ 112- 111         191855         958541      183901294
+ 131- 130       18753133           7555      141679922
+ 141- 140           1348          15096          20362
+Note: transaction 10508637 16 ctx.Predicted len is 52178
+[INFO] [02-19|16:26:07.407] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-19|16:26:08.968] [7/18 Execution] Executed blocks         number=10509213 blk/s=47.117 tx/s=8907.472 Mgas/s=538.079 batch="209.61 MiB" alloc="747.91 MiB" sys="1.06 GiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0         100969           9214         930329
+   4-   3       25947312           9214      239078534
+   9-   8            103           9213            949
+  10-   9             24           9213            225
+  11-  10             25           9213            234
+  99-  98          95381        1670723      159355455
+ 100-  99         -16553        1670723      -27655892
+ 101- 100          22214        1670723       37113915
+ 106- 105          36408        1652018       60148241
+ 111- 110           3088        1132780        3498264
+ 112- 111         181259        1132780      205326681
+ 131- 130       17879322           8916      159412036
+ 141- 140           1381          17818          24611
+[INFO] [02-19|16:26:26.489] Prefetch thread exiting                  error=nil
+[INFO] [02-19|16:26:26.499] Prefetch thread exited 
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0         101875          10000        1018753
+   4-   3       25652095          10000      256520957
+   9-   8            102          10000           1029
+  10-   9             24          10000            244
+  11-  10             25          10000            253
+  99-  98          93145        1811579      168740021
+ 100-  99         -16392        1811579      -29695718
+ 101- 100          21418        1811579       38800478
+ 106- 105          35686        1791180       63920315
+ 111- 110           3017        1225702        3699017
+ 112- 111         177080        1225702      217047743
+ 131- 130       17452582           9672      168801376
+ 141- 140           1400          19330          27067
+[INFO] [02-19|16:26:26.499] Got interrupt, shutting down... 
+[INFO] [02-19|16:26:26.500] database closed                          package=predictorDB label=unknown
+[INFO] [02-19|16:26:26.600] Successfully update p2p node database    path=/home/route/el15066/erigon/dbdir/erigon/data/nodes/eth66 updated=0 deleted=1
+[INFO] [02-19|16:26:26.617] database closed                          label=sentry
+[INFO] [02-19|16:26:26.619] Successfully update p2p node database    path=/home/route/el15066/erigon/dbdir/erigon/data/nodes/eth65 updated=0 deleted=1
+[INFO] [02-19|16:26:26.621] database closed                          label=sentry
+[INFO] [02-19|16:26:26.823] database closed                          label=chaindata
+_T1=$(date +%s.%3N)
+++ date +%s.%3N
++ _T1=1645287986.900
+_D=$(bc <<< "${_T1}-${_T0}")
+++ bc
++ _D=259.595
+
+# Confusion
+for i in {0..1}; do
+  python3 ../envon/tools/confusion_cli.py -a logz/reads_addresses_by_tx.txt -p logz/predicted_0${i}.txt |& tee '../experiments/final/confusion_RA_WT_DISK/run_0_2_p210/'confusion_0${i}.txt
+done
++ for i in {0..1}
++ python3 ../envon/tools/confusion_cli.py -a logz/reads_addresses_by_tx.txt -p logz/predicted_00.txt
++ tee ../experiments/final/confusion_RA_WT_DISK/run_0_2_p210/confusion_00.txt
+
+--- Contract 7a250d5630b4cf539739df2c5dacb4c659f2488d
+  Coverage:    83.3 %  missed:     57253
+  Overhead:      17 %  added:      57348
+  Count:       342291  txs:        29732
+
+--- Contract dac17f958d2ee523a2206206994597c13d831ec7
+  Coverage:   100.0 %  missed:         0
+  Overhead:       0 %  added:       1236
+  Count:      1286178  txs:       184762
+
+--- Contract c011a73ee8576fb46f5e1c5751ca3b9fe0af2a6f
+  Coverage:    41.6 %  missed:     68474
+  Overhead:       5 %  added:       6035
+  Count:       117238  txs:         1111
+
+--- Contract 762ed657b76372f8c08c6f7e0aa4170658c4ca35
+  Coverage:    40.7 %  missed:     39057
+  Overhead:      78 %  added:      51674
+  Count:        65862  txs:        33136
+
+--- Contract 693c188e40f760ecf00d2946ef45260b84fbc43e
+  Coverage:    49.9 %  missed:     30919
+  Overhead:      59 %  added:      36310
+  Count:        61688  txs:         4717
+
+--- Contract 5acc84a3e955bdd76467d3348077d003f00ffb97
+  Coverage:    91.9 %  missed:     42822
+  Overhead:       8 %  added:      44860
+  Count:       529200  txs:        26045
+
+--- Contract 9047237b16c918d94db3d1a9a86d7a2a605cdfe7
+  Coverage:    91.6 %  missed:      9470
+  Overhead:      14 %  added:      15719
+  Count:       112655  txs:         6663
+
+--- Contract 000000000000deab340f067535869a0e5226e58a
+  Coverage:    81.6 %  missed:      1579
+  Overhead:     888 %  added:      76401
+  Count:         8602  txs:         4997
+
+--- Contract 860bd2dba9cd475a61e6d1b45e16c365f6d78f66
+  Coverage:    68.2 %  missed:     14581
+  Overhead:     129 %  added:      59107
+  Count:        45849  txs:        10758
+
+--- Contract bbc81d23ea2c3ec7e56d39296f0cbb648873a5d3
+  Coverage:    43.8 %  missed:     38048
+  Overhead:       3 %  added:       1737
+  Count:        67730  txs:          689
+
+--- Contract 9aab3f75489902f3a48495025729a0af77d4b11e
+  Coverage:    25.8 %  missed:     68571
+  Overhead:      10 %  added:       9094
+  Count:        92384  txs:         1269
+
+--- Contract 11111254369792b2ca5d084ab5eea397ca8fa48b
+  Coverage:    31.9 %  missed:     74374
+  Overhead:      12 %  added:      12991
+  Count:       109138  txs:         2047
+
+--- Contract f6fb09a41fa6c18cebc1e7c6f75a8664d69e4d48
+  Coverage:    74.1 %  missed:      4578
+  Overhead:     316 %  added:      55794
+  Count:        17655  txs:         6103
+
+--- Contract 2f9ec37d6ccfff1cab21733bdadede11c823ccb0
+  Coverage:    97.1 %  missed:       811
+  Overhead:    2857 %  added:     795201
+  Count:        27830  txs:         1036
+
+--- Contract 654f75e491acf8c380d2a6906e67e2e56813665e
+  Coverage:   100.0 %  missed:         0
+  Overhead:   11083 %  added:      49208
+  Count:          444  txs:          102
+
+--- Contract 27492703e18f7ab987d57c1e92d9e5d16d35b163
+  Coverage:   100.0 %  missed:         0
+  Overhead:   31872 %  added:      83824
+  Count:          263  txs:          124
+
+--- Contract b440dd674e1243644791a4adfe3a2abb0a92d309
+  Coverage:    23.8 %  missed:     50562
+  Overhead:     146 %  added:      97233
+  Count:        66381  txs:          211
+
+--- Contract 5913711b94f0e3c0fc933e400df94321436163fe
+  Coverage:    89.7 %  missed:       100
+  Overhead:    5173 %  added:      50180
+  Count:          970  txs:           10
+
+--- Contract 8d1f2ebfaccf1136db76fdd1b86f1dede2d23852
+  Coverage:   100.0 %  missed:         0
+  Overhead:    2534 %  added:      36318
+  Count:         1433  txs:          142
+
+--- Contract b6ecc1c41720bdb6ca1d6d84435c1c479d6dd89b
+  Coverage:   100.0 %  missed:         0
+  Overhead:   40303 %  added:      36273
+  Count:           90  txs:           48
+
+--- Contract 6aaebdfbf23134ef8d81deb2e253f32394b2857b
+  Coverage:    24.5 %  missed:      5077
+  Overhead:     471 %  added:      31697
+  Count:         6726  txs:           27
+
+--- Totals ---
+  Coverage:    78.7 %  missed:   1193957
+  Overhead:      33 %  added:    1840311
+  Count:      5605508  txs:       613381
+
++ for i in {0..1}
++ python3 ../envon/tools/confusion_cli.py -a logz/reads_addresses_by_tx.txt -p logz/predicted_01.txt
++ tee ../experiments/final/confusion_RA_WT_DISK/run_0_2_p210/confusion_01.txt
+
+--- Contract 693c188e40f760ecf00d2946ef45260b84fbc43e
+  Coverage:    51.2 %  missed:     28955
+  Overhead:      54 %  added:      32095
+  Count:        59277  txs:         4747
+
+--- Contract 7a250d5630b4cf539739df2c5dacb4c659f2488d
+  Coverage:    84.7 %  missed:     52290
+  Overhead:      17 %  added:      57736
+  Count:       340927  txs:        29644
+
+--- Contract dac17f958d2ee523a2206206994597c13d831ec7
+  Coverage:   100.0 %  missed:         0
+  Overhead:       0 %  added:       1277
+  Count:      1286090  txs:       184681
+
+--- Contract bbc81d23ea2c3ec7e56d39296f0cbb648873a5d3
+  Coverage:    43.9 %  missed:     39292
+  Overhead:       3 %  added:       2121
+  Count:        69990  txs:          721
+
+--- Contract 762ed657b76372f8c08c6f7e0aa4170658c4ca35
+  Coverage:    39.9 %  missed:     40136
+  Overhead:      79 %  added:      52447
+  Count:        66772  txs:        33441
+
+--- Contract 5acc84a3e955bdd76467d3348077d003f00ffb97
+  Coverage:    92.1 %  missed:     42540
+  Overhead:       8 %  added:      43561
+  Count:       535304  txs:        26124
+
+--- Contract 000000000000deab340f067535869a0e5226e58a
+  Coverage:    88.7 %  missed:       880
+  Overhead:     976 %  added:      75830
+  Count:         7771  txs:         4963
+
+--- Contract 860bd2dba9cd475a61e6d1b45e16c365f6d78f66
+  Coverage:    66.5 %  missed:     15568
+  Overhead:     124 %  added:      57433
+  Count:        46428  txs:        10687
+
+--- Contract c011a73ee8576fb46f5e1c5751ca3b9fe0af2a6f
+  Coverage:    40.1 %  missed:     74548
+  Overhead:       5 %  added:       6274
+  Count:       124374  txs:         1135
+
+--- Contract 11111254369792b2ca5d084ab5eea397ca8fa48b
+  Coverage:    30.1 %  missed:     84650
+  Overhead:      11 %  added:      13348
+  Count:       121129  txs:         2118
+
+--- Contract 9aab3f75489902f3a48495025729a0af77d4b11e
+  Coverage:    25.4 %  missed:     70693
+  Overhead:      10 %  added:       9028
+  Count:        94741  txs:         1273
+
+--- Contract 9047237b16c918d94db3d1a9a86d7a2a605cdfe7
+  Coverage:    91.7 %  missed:      9562
+  Overhead:      14 %  added:      15981
+  Count:       114857  txs:         6855
+
+--- Contract f6fb09a41fa6c18cebc1e7c6f75a8664d69e4d48
+  Coverage:    74.4 %  missed:      4433
+  Overhead:     322 %  added:      55720
+  Count:        17284  txs:         5924
+
+--- Contract 654f75e491acf8c380d2a6906e67e2e56813665e
+  Coverage:   100.0 %  missed:         0
+  Overhead:    8234 %  added:      42735
+  Count:          519  txs:           99
+
+--- Contract 27492703e18f7ab987d57c1e92d9e5d16d35b163
+  Coverage:   100.0 %  missed:         0
+  Overhead:   40699 %  added:      82212
+  Count:          202  txs:          116
+
+--- Contract b440dd674e1243644791a4adfe3a2abb0a92d309
+  Coverage:    23.8 %  missed:     53660
+  Overhead:     147 %  added:     103409
+  Count:        70396  txs:          224
+
+--- Contract 2f9ec37d6ccfff1cab21733bdadede11c823ccb0
+  Coverage:    97.3 %  missed:       765
+  Overhead:    2847 %  added:     801876
+  Count:        28167  txs:         1029
+
+--- Contract fc04c4b64422af861d771d9bc6b014e38ad1e511
+  Coverage:    19.5 %  missed:      2046
+  Overhead:    1246 %  added:      31683
+  Count:         2542  txs:           13
+
+--- Contract 8d1f2ebfaccf1136db76fdd1b86f1dede2d23852
+  Coverage:   100.0 %  missed:         0
+  Overhead:    3152 %  added:      38733
+  Count:         1229  txs:          131
+
+--- Contract 5913711b94f0e3c0fc933e400df94321436163fe
+  Coverage:    89.7 %  missed:        80
+  Overhead:    5173 %  added:      40144
+  Count:          776  txs:            8
+
+--- Contract b6ecc1c41720bdb6ca1d6d84435c1c479d6dd89b
+  Coverage:   100.0 %  missed:         0
+  Overhead:   34547 %  added:      36274
+  Count:          105  txs:           49
+
+--- Totals ---
+  Coverage:    78.9 %  missed:   1179543
+  Overhead:      33 %  added:    1846735
+  Count:      5598144  txs:       612321
+
+
+# info.txt
+printf 'RA 0\nWT 2\nDISK p210\n'"WALL_TIME ${_D}\n" >'../experiments/final/confusion_RA_WT_DISK/run_0_2_p210/info.txt'
++ printf 'RA 0\nWT 2\nDISK p210\nWALL_TIME 259.595\n'
+
+# chown
+chown 1000:1000 -R '../experiments/final/confusion_RA_WT_DISK/run_0_2_p210/'
++ chown 1000:1000 -R ../experiments/final/confusion_RA_WT_DISK/run_0_2_p210/
