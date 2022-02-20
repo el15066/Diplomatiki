@@ -20,7 +20,7 @@ sudo -u '#1000' make erigon || exit 20
 printf '"'### Automated\n\n```\n'"' >'../experiments/$RUN/README.md'
 
 T0="'$(date +%s.%3N)'"
-perf record -F 1111 -agC 3 -o /tmp2/p &>>'../experiments/$RUN/README.md' &
+perf record -F 111 -agC 3 -o /tmp2/p &>>'../experiments/$RUN/README.md' &
 PID="'$!'"
 nice --10 ./build/bin/erigon --datadir /media/route/sx8200/erigon/data/ --ethash.dagdir /media/route/sx8200/erigon/ethash/ --nodiscover --port 30123 |& tee -i '../experiments/$RUN/log.txt'
 
