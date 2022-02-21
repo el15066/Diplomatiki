@@ -1,0 +1,201 @@
+[INFO] [02-21|18:45:32.483] Build info                               git_branch=inline_uv git_tag=v2021.08.05-361-ga7e2b17a9 git_commit=a7e2b17a9911ebe848dc4f09dd1557bb4013f4c3
+[INFO] [02-21|18:45:32.484] Starting Erigon on Ethereum mainnet... 
+[INFO] [02-21|18:45:32.485] Maximum peer count                       ETH=100 total=100
+[INFO] [02-21|18:45:32.486] Set global gas cap                       cap=50000000
+[INFO] [02-21|18:45:32.525] Opening Database                         label=chaindata path=dbdir/erigon/data/chaindata
+[INFO] [02-21|18:45:32.528] database closed                          label=chaindata
+[INFO] [02-21|18:45:32.528] Opening Database                         label=chaindata path=/home/route/el15066/erigon/dbdir/erigon/data/chaindata
+[INFO] [02-21|18:45:32.531] Initialised chain configuration          config="{ChainID: 1 Homestead: 1150000 DAO: 1920000 DAOSupport: true EIP150: 2463000 EIP155: 2675000 EIP158: 2675000 Byzantium: 4370000 Constantinople: 7280000 Petersburg: 7280000 Istanbul: 9069000, Muir Glacier: 9200000, Berlin: 12244000, London: 12965000, Engine: ethash}"
+[INFO] [02-21|18:45:32.531] Disk storage enabled for ethash DAGs     dir=dbdir/erigon/ethash count=2
+[INFO] [02-21|18:45:32.532] Initialising Ethereum protocol           network=1
+[INFO] [02-21|18:45:32.532] Effective                                prune="--prune="
+[INFO] [02-21|18:45:32.532] Starting private RPC server              on=127.0.0.1:9090
+[INFO] [02-21|18:45:33.857] Stage Headers                   (Download headers) 
+[INFO] [02-21|18:45:33.857] Stage Headers                   Done 
+[INFO] [02-21|18:45:33.857] Stage BlockHashes               (Write block hashes) 
+[INFO] [02-21|18:45:33.858] Stage BlockHashes               Done 
+[INFO] [02-21|18:45:33.858] Stage CreateHeadersSnapshot     disabled. Enable by --snapshot.layout 
+[INFO] [02-21|18:45:33.858] Stage Bodies                    (Download block bodies) 
+[INFO] [02-21|18:45:33.858] Stage Bodies                    Done 
+[INFO] [02-21|18:45:33.858] Stage CreateBodiesSnapshot      disabled. Enable by --snapshot.layout 
+[INFO] [02-21|18:45:33.858] Stage Senders                   (Recover senders from tx signatures) 
+[INFO] [02-21|18:45:33.858] Stage Senders                   Done 
+[INFO] [02-21|18:45:33.858] Stage Execution                 (Execute blocks w/o hash checks) 
+[INFO] [02-21|18:45:33.858] [7/18 Execution] Blocks execution        from=10499999 to=10529999
+[INFO] [02-21|18:45:33.858] Globals                                  STORAGE_TRACING=false TX_DUMPING=false CODE_DUMPING=false JUMP_TRACING=false PREFETCH_BLOCKS=true BLOCK_READAHEAD=2 PREFETCH_ACCOUNTS=true PREFETCH_CODE=true USE_PREDICTORS=false USE_STORAGE_PREFETCH_FILE=false PREFETCH_WORKERS_COUNT=2 TRACE_PREDICTED=false DEBUG_TX=false DEBUG_TX_BLOCK=0 DEBUG_TX_INDEX=0 PREDICTOR_CACHE_SIZE=1024 PREDICTOR_GAS_TO_GAZ_RATE=64 PREDICTOR_RESERVE_GAZ_DIV=2 PREDICTOR_CALL_GAZ_BONUS=0 PREDICTOR_DB_PATH=dbdir/predictorDB_new
+[INFO] [02-21|18:45:33.861] Started P2P networking                   version=65 self="enode://cf90152aad373d1608af933850566e82f8ad78089ffe361b9f94664a081ba07596b6dbf4b38dfdde9f4a7470414f76c803b66ad56e4920db7bb09fa445d3c458@127.0.0.1:30304?discport=0" name=erigon/v2021.08.5-alpha-a7e2b17a/linux-amd64/go1.16.14
+[INFO] [02-21|18:45:33.861] Started P2P networking                   version=66 self="enode://cf90152aad373d1608af933850566e82f8ad78089ffe361b9f94664a081ba07596b6dbf4b38dfdde9f4a7470414f76c803b66ad56e4920db7bb09fa445d3c458@127.0.0.1:30123?discport=0" name=erigon/v2021.08.5-alpha-a7e2b17a/linux-amd64/go1.16.14
+[INFO] [02-21|18:46:03.862] [7/18 Execution] Executed blocks         number=10501053 blk/s=35.128 tx/s=6647.622 Mgas/s=406.609 batch="29.37 MiB" alloc="183.66 MiB" sys="343.11 MiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0           8246           1054           8691
+   4-   3       28457979           1054       29994710
+   9-   8            107           1053            112
+  10-   9             33           1053             34
+  11-  10             30           1053             32
+[INFO] [02-21|18:46:33.876] [7/18 Execution] Executed blocks         number=10502389 blk/s=44.513 tx/s=8691.757 Mgas/s=506.745 batch="60.70 MiB" alloc="282.65 MiB" sys="411.79 MiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0           5821           2390          13912
+   4-   3       25105472           2390       60002078
+   9-   8            108           2389            260
+  10-   9             33           2389             80
+  11-  10             30           2389             73
+[INFO] [02-21|18:47:03.866] [7/18 Execution] Executed blocks         number=10503766 blk/s=45.916 tx/s=8393.435 Mgas/s=511.519 batch="90.10 MiB" alloc="374.67 MiB" sys="546.70 MiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0           5439           3767          20491
+   4-   3       23887453           3767       89984038
+   9-   8            109           3766            410
+  10-   9             33           3766            125
+  11-  10             30           3766            115
+[INFO] [02-21|18:47:32.533] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-21|18:47:33.861] [7/18 Execution] Executed blocks         number=10505085 blk/s=43.974 tx/s=7050.765 Mgas/s=504.656 batch="120.42 MiB" alloc="408.97 MiB" sys="615.08 MiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0           5210           5086          26501
+   4-   3       23588614           5086      119971695
+   9-   8            109           5085            556
+  10-   9             33           5085            169
+  11-  10             30           5085            155
+[INFO] [02-21|18:48:03.870] [7/18 Execution] Executed blocks         number=10506456 blk/s=45.686 tx/s=7173.976 Mgas/s=528.730 batch="154.09 MiB" alloc="543.71 MiB" sys="750.63 MiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0           4920           6457          31769
+   4-   3       23226594           6457      149974120
+   9-   8            109           6456            708
+  10-   9             33           6456            215
+  11-  10             30           6456            197
+[INFO] [02-21|18:48:33.859] [7/18 Execution] Executed blocks         number=10507951 blk/s=49.851 tx/s=9833.863 Mgas/s=571.787 batch="183.51 MiB" alloc="406.63 MiB" sys="885.14 MiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0           4857           7952          38627
+   4-   3       22630177           7952      179955174
+   9-   8            110           7951            876
+  10-   9             33           7951            266
+  11-  10             30           7951            243
+[INFO] [02-21|18:49:03.880] [7/18 Execution] Executed blocks         number=10509444 blk/s=49.733 tx/s=9350.361 Mgas/s=569.070 batch="214.02 MiB" alloc="464.78 MiB" sys="953.94 MiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0           4990           9445          47139
+   4-   3       22230353           9445      209965687
+   9-   8            110           9444           1040
+  10-   9             33           9444            314
+  11-  10             30           9444            289
+[INFO] [02-21|18:49:32.533] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-21|18:49:33.870] [7/18 Execution] Executed blocks         number=10510869 blk/s=47.516 tx/s=8135.061 Mgas/s=537.881 batch="241.52 MiB" alloc="706.28 MiB" sys="1021.38 MiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0           6049          10870          65757
+   4-   3       22073208          10870      239935778
+   9-   8            110          10869           1205
+  10-   9             33          10869            360
+  11-  10             30          10869            333
+[INFO] [02-21|18:50:03.875] [7/18 Execution] Executed blocks         number=10512228 blk/s=45.292 tx/s=6675.696 Mgas/s=522.144 batch="268.29 MiB" alloc="963.98 MiB" sys="1.13 GiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0           5877          12229          71874
+   4-   3       22073246          12229      269933736
+   9-   8            110          12228           1354
+  10-   9             33          12228            408
+  11-  10             30          12228            375
+[INFO] [02-21|18:50:33.878] [7/18 Execution] Executed blocks         number=10513698 blk/s=48.996 tx/s=8931.385 Mgas/s=563.469 batch="295.13 MiB" alloc="689.81 MiB" sys="1.20 GiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0           5651          13699          77423
+   4-   3       21894244          13699      299929252
+   9-   8            110          13698           1519
+  10-   9             33          13698            459
+  11-  10             30          13698            420
+[INFO] [02-21|18:51:03.860] [7/18 Execution] Executed blocks         number=10515257 blk/s=51.998 tx/s=10236.048 Mgas/s=595.642 batch="325.00 MiB" alloc="733.98 MiB" sys="1.33 GiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0           5581          15258          85169
+   4-   3       21621576          15258      329902007
+   9-   8            111          15257           1695
+  10-   9             33          15257            515
+  11-  10             30          15257            467
+[INFO] [02-21|18:51:32.532] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-21|18:51:33.863] [7/18 Execution] Executed blocks         number=10516756 blk/s=49.961 tx/s=9089.349 Mgas/s=571.658 batch="353.26 MiB" alloc="949.52 MiB" sys="1.39 GiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0           7787          16757         130501
+   4-   3       21475127          16757      359858715
+   9-   8            110          16756           1850
+  10-   9             33          16756            567
+  11-  10             30          16756            513
+[INFO] [02-21|18:52:03.873] [7/18 Execution] Executed blocks         number=10518176 blk/s=47.317 tx/s=7591.543 Mgas/s=540.910 batch="377.61 MiB" alloc="1.28 GiB" sys="1.46 GiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0           7612          18177         138371
+   4-   3       21447959          18177      389859565
+   9-   8            110          18176           2009
+  10-   9             34          18176            625
+  11-  10             30          18176            557
+[INFO] [02-21|18:52:33.867] [7/18 Execution] Executed blocks         number=10519651 blk/s=49.178 tx/s=7396.837 Mgas/s=563.398 batch="405.62 MiB" alloc="1.23 GiB" sys="1.59 GiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0           7387          19652         145186
+   4-   3       21363967          19652      419844681
+   9-   8            110          19651           2171
+  10-   9             34          19651            675
+  11-  10             30          19651            602
+[INFO] [02-21|18:53:03.863] [7/18 Execution] Executed blocks         number=10521212 blk/s=52.046 tx/s=9716.258 Mgas/s=593.603 batch="433.38 MiB" alloc="889.85 MiB" sys="1.66 GiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0           7147          21213         151622
+   4-   3       21205371          21213      449829555
+   9-   8            109          21212           2329
+  10-   9             34          21212            725
+  11-  10             30          21212            650
+[INFO] [02-21|18:53:32.532] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-21|18:53:33.866] [7/18 Execution] Executed blocks         number=10522693 blk/s=49.357 tx/s=9210.342 Mgas/s=569.390 batch="460.83 MiB" alloc="1.40 GiB" sys="1.79 GiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0           8594          22694         195053
+   4-   3       21141497          22694      479785145
+   9-   8            109          22693           2485
+  10-   9             34          22693            781
+  11-  10             30          22693            696
+[INFO] [02-21|18:54:03.859] [7/18 Execution] Executed blocks         number=10524041 blk/s=44.944 tx/s=7603.844 Mgas/s=520.934 batch="485.60 MiB" alloc="1.19 GiB" sys="1.86 GiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0           8303          24042         199627
+   4-   3       21203403          24042      509772230
+   9-   8            109          24041           2632
+  10-   9             34          24041            826
+  11-  10             30          24041            737
+[INFO] [02-21|18:54:33.888] [7/18 Execution] Executed blocks         number=10525372 blk/s=44.324 tx/s=7322.719 Mgas/s=518.550 batch="507.08 MiB" alloc="1.70 GiB" sys="1.92 GiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0           8047          25373         204180
+   4-   3       21274405          25373      539795485
+   9-   8            109          25372           2780
+  10-   9             34          25372            874
+  11-  10             30          25372            778
+[INFO] [02-21|18:55:03.866] [7/18 Execution] Executed blocks         number=10526714 blk/s=44.766 tx/s=8339.120 Mgas/s=532.144 batch="527.73 MiB" alloc="1.34 GiB" sys="1.99 GiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0           7850          26715         209722
+   4-   3       21327585          26715      569766447
+   9-   8            109          26714           2934
+  10-   9             34          26714            921
+  11-  10             30          26714            819
+[INFO] [02-21|18:55:32.532] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-21|18:55:33.864] [7/18 Execution] Executed blocks         number=10528078 blk/s=45.470 tx/s=8960.218 Mgas/s=547.791 batch="551.80 MiB" alloc="1.51 GiB" sys="2.06 GiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0           7704          28079         216325
+   4-   3       21359591          28079      599755965
+   9-   8            109          28078           3083
+  10-   9             34          28078            967
+  11-  10             30          28078            861
+[INFO] [02-21|18:56:03.879] [7/18 Execution] Executed blocks         number=10529425 blk/s=44.876 tx/s=8384.351 Mgas/s=538.862 batch="577.86 MiB" alloc="1.30 GiB" sys="2.12 GiB"
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0           8328          29426         245065
+   4-   3       21400840          29426      629741128
+   9-   8            109          29425           3230
+  10-   9             34          29425           1011
+  11-  10             30          29425            902
+[INFO] [02-21|18:56:16.970] Prefetch thread exiting                  error=nil
+[INFO] [02-21|18:56:17.008] Prefetch thread exited 
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0           8235          30000         247061
+   4-   3       21428901          30000      642867049
+   9-   8            109          30000           3296
+  10-   9             34          30000           1030
+  11-  10             30          30000            920
+  71-  70           5101       25181187      128450990
+  76-  75          13953        4829099       67380596
+  99-  98          13424        5351216       71836494
+ 100-  99            -73        5351216        -395783
+ 101- 100           5486        5351216       29358247
+ 106- 105           9271        5278636       48939364
+ 111- 110           1889        3599192        6801560
+ 131- 130        2482773          29019       72047594
+[INFO] [02-21|18:56:17.008] Got interrupt, shutting down... 
+[INFO] [02-21|18:56:17.292] Successfully update p2p node database    path=/home/route/el15066/erigon/dbdir/erigon/data/nodes/eth66 updated=0 deleted=1
+[INFO] [02-21|18:56:17.312] database closed                          label=sentry
+[INFO] [02-21|18:56:17.313] Successfully update p2p node database    path=/home/route/el15066/erigon/dbdir/erigon/data/nodes/eth65 updated=0 deleted=1
+[INFO] [02-21|18:56:17.330] database closed                          label=sentry
+[INFO] [02-21|18:56:17.648] database closed                          label=chaindata
