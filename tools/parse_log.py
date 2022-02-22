@@ -194,7 +194,7 @@ def main(ifname, ofname):
                         #
                     elif len(line) == 54 and line[4] == '-':
                         if line[:4] == '__TO':
-                            if row_values or 'number' in row:
+                            if row_values:
                                 row        = {}
                                 row_values = {}
                                 row['vs']  = row_values
@@ -227,11 +227,13 @@ def main(ifname, ofname):
             prefix = f'Run {i:2} '
             t0 = data['t0']
             t1 = data.get('t1')
-            if t1: print(f'{prefix}total,{(t1-t0)/1000:.2f}', file=fo)
-            else:  print(f'{prefix}total,-1',                 file=fo)
+            rows = data.get('rows', [])
+            pad  = ',' * len(rows)
+            if t1: print(f'{prefix}total,{(t1-t0)/1000:.2f}{pad}', file=fo)
+            else:  print(f'{prefix}total,-1{pad}',                 file=fo)
             #
             line_t = prefix + 'time,0'
-            for j, row in enumerate(data.get('rows', [])):
+            for j, row in enumerate(rows):
                 t = row.get('t')
                 if t: line_t += f',{(t-t0)/1000:.2f}'
                 else: line_t +=  ',-1'
@@ -240,7 +242,7 @@ def main(ifname, ofname):
             for tick in [1, 4]:
                 line_c = prefix + f'count   {tick}-{tick-1},0'
                 line_d = prefix + f'delta_t {tick}-{tick-1},0'
-                for j, row in enumerate(data.get('rows', [])):
+                for j, row in enumerate(rows):
                     a, avg, cnt, tot = row.get('vs', {}).get(tick, (-1,-1,-1,-1))
                     line_c += f',{cnt}'
                     line_d += f',{tot/1000:.2f}'
