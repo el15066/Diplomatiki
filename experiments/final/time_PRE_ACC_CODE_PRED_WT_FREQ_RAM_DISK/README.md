@@ -17,7 +17,7 @@
 
 ## Τελική επίδοση ως προς το ποσοστό του χρόνου που το execution thread ξοδεύει στη βάση
 
-![blocks_per_sec_vs_mDB_time_sata.svg](blocks_per_sec_vs_mDB_time_sata.svg)
+![blocks_per_sec_vs_mDB_time_sata.svg](blocks_per_sec_vs_mDB_time_sata.svg)  
 *αριστερά: περισσότερο prefetch, δεξιά: καθόλου*
 
 ## Όλες οι μετρήσεις μέχρι τώρα:
