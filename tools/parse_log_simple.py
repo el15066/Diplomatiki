@@ -333,8 +333,8 @@ class pretty_name:
         res = []
         #
         if not self.parts[0]: res.append('prefetch type')
-        if not self.parts[1]: res.append('thread count')
-        if not self.parts[2]: res.append('readahead')
+        if not self.parts[1]: res.append('readahead')
+        if not self.parts[2]: res.append('thread count')
         if not self.parts[3]: res.append('CPU freq.')
         if not self.parts[4]: res.append('avail. RAM')
         if not self.parts[5]: res.append('storage')
