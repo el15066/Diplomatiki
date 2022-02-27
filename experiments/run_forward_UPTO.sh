@@ -27,7 +27,8 @@ for c in 3 4 5 15 16 17; do cpufreq-set -c "'$c'" -f '3800MHz' || exit 10; done
 cd el15066/erigon/
 
 # GIT
-git checkout forward
+sudo -u '#1000' git checkout -- common/globals.go
+sudo -u '#1000' git checkout forward
 
 # Globals
 cat common/globals.go.template |
@@ -54,8 +55,8 @@ _T1="'$(date +%s.%3N)'"
 _D="'$(bc <<< "${_T1}-${_T0}")'"
 
 # UN GIT
-git checkout -- common/globals.go
-git checkout inline_uv
+sudo -u '#1000' git checkout -- common/globals.go
+sudo -u '#1000' git checkout inline_uv
 
 # info.txt
 printf 'UPTO $UPTO\n'"'"WALL_TIME ${_D}\n"'" >'../experiments/$RUN/info.txt'

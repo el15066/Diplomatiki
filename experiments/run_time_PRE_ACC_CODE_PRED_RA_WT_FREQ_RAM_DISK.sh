@@ -42,6 +42,7 @@ for c in 3 4 5 15 16 17; do cpufreq-set -c "'$c'" -f '${FREQ}MHz' || exit 10; do
 
 # Prep
 cd el15066/erigon/
+sudo -u '#1000' git status | grep -F '/inline_uv'
 
 # Globals
 cat common/globals_time_PRE_ACC_CODE_PRED_RA_WT.go.template |
