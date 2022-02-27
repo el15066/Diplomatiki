@@ -1,0 +1,275 @@
+
+
+# Freq
+for c in 3 4 5 15 16 17; do cpufreq-set -c $c -f '3800MHz' || exit 10; done
++ for c in 3 4 5 15 16 17
++ cpufreq-set -c 3 -f 3800MHz
++ for c in 3 4 5 15 16 17
++ cpufreq-set -c 4 -f 3800MHz
++ for c in 3 4 5 15 16 17
++ cpufreq-set -c 5 -f 3800MHz
++ for c in 3 4 5 15 16 17
++ cpufreq-set -c 15 -f 3800MHz
++ for c in 3 4 5 15 16 17
++ cpufreq-set -c 16 -f 3800MHz
++ for c in 3 4 5 15 16 17
++ cpufreq-set -c 17 -f 3800MHz
+
+# Prep
+cd el15066/erigon/
++ cd el15066/erigon/
+
+# GIT
+sudo -u '#1000' git checkout -- common/globals.go
++ sudo -u '#1000' git checkout -- common/globals.go
+sudo -u '#1000' git checkout forward
++ sudo -u '#1000' git checkout forward
+Switched to branch 'forward'
+Your branch is up to date with 'origin/forward'.
+
+# Globals
+cat common/globals.go.template |
+  sed 's/%UPTO%/10750000/g' |
+tee common/globals.go
++ cat common/globals.go.template
++ sed s/%UPTO%/10750000/g
++ tee common/globals.go
+
+package common
+
+const MAX_BLOCK = 10750000 - 1
+
+# Disk
+rm dbdir
++ rm dbdir
+ln -s '/media/route/sx8200/' dbdir
++ ln -s /media/route/sx8200/ dbdir
+
+# Make
+sudo -u '#1000' make erigon
++ sudo -u '#1000' make erigon
+Building Erigon
+rm -f /home/route/el15066/erigon/build/bin/tg # Remove old binary to prevent confusion where users still use it because of the scripts
+env GO111MODULE=on go build -trimpath -ldflags "-X github.com/ledgerwatch/erigon/params.GitCommit=8cd3f016525354b54ba2b44980d708bc2c60ceb1 -X github.com/ledgerwatch/erigon/params.GitBranch=forward -X github.com/ledgerwatch/erigon/params.GitTag=v2021.08.05-4-g8cd3f0165" -o /home/route/el15066/erigon/build/bin/erigon ./cmd/erigon
+Done building.
+Run "/home/route/el15066/erigon/build/bin/erigon" to launch Erigon.
+
+# Mkdir
+mkdir '../experiments/final/forward/upto_10750/' || true
++ mkdir ../experiments/final/forward/upto_10750/
+
+# Sleep
+sleep 12
++ sleep 12
+
+# Run
+_T0=$(date +%s.%3N)
+++ date +%s.%3N
++ _T0=1645802631.297
+nice --10 taskset -c 3-5,16-17 ./build/bin/erigon --datadir dbdir/erigon/data/ --ethash.dagdir dbdir/erigon/ethash/ --nodiscover --port 30123 |& tee -i '../experiments/final/forward/upto_10750/erigon_log.txt'
++ nice --10 taskset -c 3-5,16-17 ./build/bin/erigon --datadir dbdir/erigon/data/ --ethash.dagdir dbdir/erigon/ethash/ --nodiscover --port 30123
++ tee -i ../experiments/final/forward/upto_10750/erigon_log.txt
+[INFO] [02-25|15:23:51.348] Build info                               git_branch=forward git_tag=v2021.08.05-4-g8cd3f0165 git_commit=8cd3f016525354b54ba2b44980d708bc2c60ceb1
+[INFO] [02-25|15:23:51.348] Starting Erigon on Ethereum mainnet... 
+[INFO] [02-25|15:23:51.349] Maximum peer count                       ETH=100 total=100
+[INFO] [02-25|15:23:51.349] Set global gas cap                       cap=50000000
+[INFO] [02-25|15:23:51.390] Opening Database                         label=chaindata path=dbdir/erigon/data/chaindata
+[INFO] [02-25|15:23:51.391] database closed                          label=chaindata
+[INFO] [02-25|15:23:51.391] Opening Database                         label=chaindata path=/home/route/el15066/erigon/dbdir/erigon/data/chaindata
+[INFO] [02-25|15:23:51.392] Initialised chain configuration          config="{ChainID: 1 Homestead: 1150000 DAO: 1920000 DAOSupport: true EIP150: 2463000 EIP155: 2675000 EIP158: 2675000 Byzantium: 4370000 Constantinople: 7280000 Petersburg: 7280000 Istanbul: 9069000, Muir Glacier: 9200000, Berlin: 12244000, London: 12965000, Engine: ethash}"
+[INFO] [02-25|15:23:51.392] Disk storage enabled for ethash DAGs     dir=dbdir/erigon/ethash count=2
+[INFO] [02-25|15:23:51.392] Initialising Ethereum protocol           network=1
+[INFO] [02-25|15:23:51.392] Effective                                prune="--prune="
+[INFO] [02-25|15:23:51.392] Starting private RPC server              on=127.0.0.1:9090
+[INFO] [02-25|15:23:51.830] [10/18 HashState] Promoting plain state  from=7499999 to=10749999
+[INFO] [02-25|15:23:51.830] [10/18 HashState] Incremental promotion started from=7499999 to=10749999 codes=true csbucket=AccountChangeSet
+[INFO] [02-25|15:23:51.832] Started P2P networking                   version=65 self="enode://cf90152aad373d1608af933850566e82f8ad78089ffe361b9f94664a081ba07596b6dbf4b38dfdde9f4a7470414f76c803b66ad56e4920db7bb09fa445d3c458@127.0.0.1:30304?discport=0" name=erigon/v2021.08.5-alpha-8cd3f016/linux-amd64/go1.16.14
+[INFO] [02-25|15:23:51.835] Started P2P networking                   version=66 self="enode://cf90152aad373d1608af933850566e82f8ad78089ffe361b9f94664a081ba07596b6dbf4b38dfdde9f4a7470414f76c803b66ad56e4920db7bb09fa445d3c458@127.0.0.1:30123?discport=0" name=erigon/v2021.08.5-alpha-8cd3f016/linux-amd64/go1.16.14
+[INFO] [02-25|15:24:21.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000073e0ff alloc="179.80 MiB" sys="275.74 MiB"
+[INFO] [02-25|15:24:51.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000747933 alloc="153.99 MiB" sys="275.80 MiB"
+[INFO] [02-25|15:25:21.830] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000750135 alloc="130.50 MiB" sys="342.47 MiB"
+[INFO] [02-25|15:25:51.393] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|15:25:51.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000007597f6 alloc="207.87 MiB" sys="342.97 MiB"
+[INFO] [02-25|15:26:21.830] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000007630b1 alloc="169.23 MiB" sys="343.59 MiB"
+[INFO] [02-25|15:26:51.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000076c485 alloc="216.31 MiB" sys="411.29 MiB"
+[INFO] [02-25|15:27:21.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000775dc9 alloc="161.46 MiB" sys="412.10 MiB"
+[INFO] [02-25|15:27:51.392] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|15:27:51.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000078051e alloc="307.46 MiB" sys="412.10 MiB"
+[INFO] [02-25|15:28:21.832] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000078a3f7 alloc="242.84 MiB" sys="412.10 MiB"
+[INFO] [02-25|15:28:51.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000794cf9 alloc="197.48 MiB" sys="412.41 MiB"
+[INFO] [02-25|15:29:21.830] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000079f528 alloc="317.02 MiB" sys="413.04 MiB"
+[INFO] [02-25|15:29:51.393] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|15:29:51.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000007a9bd9 alloc="342.40 MiB" sys="613.45 MiB"
+[INFO] [02-25|15:30:21.830] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000007b5399 alloc="435.95 MiB" sys="615.58 MiB"
+[INFO] [02-25|15:30:51.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000007c1666 alloc="449.48 MiB" sys="615.64 MiB"
+[INFO] [02-25|15:31:21.830] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000007cd911 alloc="443.90 MiB" sys="615.64 MiB"
+[INFO] [02-25|15:31:51.393] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|15:31:51.830] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000007db291 alloc="449.88 MiB" sys="615.64 MiB"
+[INFO] [02-25|15:32:21.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000007e7e66 alloc="453.48 MiB" sys="615.64 MiB"
+[INFO] [02-25|15:32:51.830] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000007f4a91 alloc="453.15 MiB" sys="615.89 MiB"
+[INFO] [02-25|15:33:21.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000801eb4 alloc="433.23 MiB" sys="616.39 MiB"
+[INFO] [02-25|15:33:51.392] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|15:33:51.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000080f1d8 alloc="352.13 MiB" sys="683.27 MiB"
+[INFO] [02-25|15:34:21.830] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000081d255 alloc="496.26 MiB" sys="683.52 MiB"
+[INFO] [02-25|15:34:51.830] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000082c074 alloc="326.67 MiB" sys="684.19 MiB"
+[INFO] [02-25|15:35:21.830] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000083afe5 alloc="465.97 MiB" sys="684.51 MiB"
+[INFO] [02-25|15:35:51.393] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|15:35:51.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000084999b alloc="741.68 MiB" sys="1.06 GiB"
+[INFO] [02-25|15:36:21.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000008572d2 alloc="590.39 MiB" sys="1.06 GiB"
+[INFO] [02-25|15:36:51.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000864f93 alloc="438.37 MiB" sys="1.06 GiB"
+[INFO] [02-25|15:37:21.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000008724d7 alloc="464.02 MiB" sys="1.06 GiB"
+[INFO] [02-25|15:37:51.392] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|15:37:51.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000880141 alloc="462.80 MiB" sys="1.06 GiB"
+[INFO] [02-25|15:38:21.830] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000088d79f alloc="464.45 MiB" sys="1.06 GiB"
+[INFO] [02-25|15:38:51.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000089a3b2 alloc="467.65 MiB" sys="1.06 GiB"
+[INFO] [02-25|15:39:21.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000008a800e alloc="451.59 MiB" sys="1.06 GiB"
+[INFO] [02-25|15:39:51.392] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|15:39:51.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000008b4b30 alloc="817.88 MiB" sys="1.06 GiB"
+[INFO] [02-25|15:40:21.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000008c1006 alloc="753.21 MiB" sys="1.06 GiB"
+[INFO] [02-25|15:40:51.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000008cfa21 alloc="722.43 MiB" sys="1.06 GiB"
+[INFO] [02-25|15:41:21.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000008ddfff alloc="656.46 MiB" sys="1.06 GiB"
+[INFO] [02-25|15:41:51.393] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|15:41:51.830] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000008ee3f6 alloc="568.22 MiB" sys="1.07 GiB"
+[INFO] [02-25|15:42:21.830] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000008fdcfa alloc="920.03 MiB" sys="1.07 GiB"
+[INFO] [02-25|15:42:51.830] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000090aa28 alloc="778.62 MiB" sys="1.07 GiB"
+[INFO] [02-25|15:43:21.830] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000091753e alloc="628.14 MiB" sys="1.07 GiB"
+[INFO] [02-25|15:43:51.392] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|15:43:51.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000009246ad alloc="920.31 MiB" sys="1.07 GiB"
+[INFO] [02-25|15:44:21.830] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000009316fb alloc="727.00 MiB" sys="1.07 GiB"
+[INFO] [02-25|15:44:51.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000093cbea alloc="919.26 MiB" sys="1.52 GiB"
+[INFO] [02-25|15:45:23.137] Flushed buffer file                      name=/home/route/el15066/erigon/dbdir/erigon/data/etl-temp/tg-sync-sortable-buf198557937 alloc="1.26 GiB" sys="2.69 GiB"
+[INFO] [02-25|15:45:23.251] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000094482f alloc="1.26 GiB" sys="2.69 GiB"
+[INFO] [02-25|15:45:51.392] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|15:45:51.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000094feff alloc="2.02 GiB" sys="2.70 GiB"
+[INFO] [02-25|15:46:21.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000095cde6 alloc="261.16 MiB" sys="2.71 GiB"
+[INFO] [02-25|15:46:51.830] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000968949 alloc="352.53 MiB" sys="2.71 GiB"
+[INFO] [02-25|15:47:21.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000009741fc alloc="383.92 MiB" sys="2.71 GiB"
+[INFO] [02-25|15:47:51.393] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|15:47:51.830] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000097f4da alloc="377.65 MiB" sys="2.71 GiB"
+[INFO] [02-25|15:48:21.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000098a5fc alloc="316.23 MiB" sys="2.71 GiB"
+[INFO] [02-25|15:48:51.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000995515 alloc="470.96 MiB" sys="2.71 GiB"
+[INFO] [02-25|15:49:21.830] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000009a04c1 alloc="649.72 MiB" sys="2.71 GiB"
+[INFO] [02-25|15:49:51.392] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|15:49:51.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000009aaf01 alloc="849.71 MiB" sys="2.71 GiB"
+[INFO] [02-25|15:50:21.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000009b5705 alloc="503.81 MiB" sys="2.71 GiB"
+[INFO] [02-25|15:50:51.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000009bfe42 alloc="786.58 MiB" sys="2.71 GiB"
+[INFO] [02-25|15:51:21.830] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000009ca7f7 alloc="679.42 MiB" sys="2.71 GiB"
+[INFO] [02-25|15:51:51.393] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|15:51:51.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000009d49ce alloc="563.97 MiB" sys="2.71 GiB"
+[INFO] [02-25|15:52:21.832] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000009ddbbd alloc="854.52 MiB" sys="2.71 GiB"
+[INFO] [02-25|15:52:51.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000009e6bcc alloc="694.08 MiB" sys="2.71 GiB"
+[INFO] [02-25|15:53:21.830] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000009ef73e alloc="598.40 MiB" sys="2.71 GiB"
+[INFO] [02-25|15:53:51.392] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|15:53:51.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000009f7e92 alloc="899.73 MiB" sys="2.71 GiB"
+[INFO] [02-25|15:54:21.830] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000a007cb alloc="633.66 MiB" sys="2.71 GiB"
+[INFO] [02-25|15:54:51.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000a08d04 alloc="1.31 GiB" sys="3.10 GiB"
+[INFO] [02-25|15:55:21.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000a10ab8 alloc="1.20 GiB" sys="3.10 GiB"
+[INFO] [02-25|15:55:51.392] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|15:56:00.688] Flushed buffer file                      name=/home/route/el15066/erigon/dbdir/erigon/data/etl-temp/tg-sync-sortable-buf009628572 alloc="1.88 GiB" sys="3.42 GiB"
+[INFO] [02-25|15:56:00.791] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000a182d6 alloc="1.88 GiB" sys="3.42 GiB"
+[INFO] [02-25|15:56:21.830] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000a1d6b9 alloc="144.34 MiB" sys="3.42 GiB"
+[INFO] [02-25|15:56:51.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000a24fa4 alloc="223.29 MiB" sys="3.42 GiB"
+[INFO] [02-25|15:57:21.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000a2c8d7 alloc="241.55 MiB" sys="3.42 GiB"
+[INFO] [02-25|15:57:51.392] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|15:57:51.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000a33cbd alloc="507.68 MiB" sys="3.42 GiB"
+[INFO] [02-25|15:58:21.831] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000a3b1e1 alloc="417.65 MiB" sys="3.42 GiB"
+[INFO] [02-25|15:58:47.898] Flushed buffer file                      name=/home/route/el15066/erigon/dbdir/erigon/data/etl-temp/tg-sync-sortable-buf403298379 alloc="746.71 MiB" sys="3.42 GiB"
+[INFO] [02-25|15:59:06.282] [10/18 HashState] etl: temp files removed total size="662.5 MB"
+[INFO] [02-25|15:59:06.282] [10/18 HashState] Incremental promotion started from=7499999 to=10749999 codes=false csbucket=AccountChangeSet
+[INFO] [02-25|15:59:36.282] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000739c2b alloc="437.23 MiB" sys="3.42 GiB"
+[INFO] [02-25|15:59:51.392] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|16:00:06.287] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000074b0fd alloc="1.38 GiB" sys="3.42 GiB"
+[INFO] [02-25|16:00:36.286] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000075e25c alloc="713.68 MiB" sys="3.42 GiB"
+[INFO] [02-25|16:01:20.831] Flushed buffer file                      name=/home/route/el15066/erigon/dbdir/erigon/data/etl-temp/tg-sync-sortable-buf154811694 alloc="1.46 GiB" sys="3.42 GiB"
+[INFO] [02-25|16:01:20.949] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000076c6e9 alloc="1.46 GiB" sys="3.42 GiB"
+[INFO] [02-25|16:01:36.284] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000007745aa alloc="2.61 GiB" sys="3.42 GiB"
+[INFO] [02-25|16:01:51.392] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|16:02:06.283] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000782f0c alloc="706.17 MiB" sys="3.42 GiB"
+[INFO] [02-25|16:02:36.283] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000791a4b alloc="852.21 MiB" sys="3.42 GiB"
+[INFO] [02-25|16:03:06.282] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000007a0231 alloc="874.04 MiB" sys="3.42 GiB"
+[INFO] [02-25|16:03:37.205] Flushed buffer file                      name=/home/route/el15066/erigon/dbdir/erigon/data/etl-temp/tg-sync-sortable-buf170035381 alloc="2.51 GiB" sys="4.26 GiB"
+[INFO] [02-25|16:03:37.307] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000007a7813 alloc="2.51 GiB" sys="4.26 GiB"
+[INFO] [02-25|16:03:51.393] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|16:04:06.283] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000007b664b alloc="764.97 MiB" sys="4.26 GiB"
+[INFO] [02-25|16:04:36.287] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000007c724f alloc="1.07 GiB" sys="4.26 GiB"
+[INFO] [02-25|16:05:06.286] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000007d8a1c alloc="930.90 MiB" sys="4.26 GiB"
+[INFO] [02-25|16:05:36.286] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000007ea926 alloc="1000.55 MiB" sys="4.26 GiB"
+[INFO] [02-25|16:05:51.393] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|16:05:55.528] Flushed buffer file                      name=/home/route/el15066/erigon/dbdir/erigon/data/etl-temp/tg-sync-sortable-buf610125968 alloc="2.34 GiB" sys="4.26 GiB"
+[INFO] [02-25|16:06:06.283] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000007f292c alloc="349.90 MiB" sys="4.26 GiB"
+[INFO] [02-25|16:06:36.283] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000008046b7 alloc="480.14 MiB" sys="4.26 GiB"
+[INFO] [02-25|16:07:06.287] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000816427 alloc="1.45 GiB" sys="4.26 GiB"
+[INFO] [02-25|16:07:36.286] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000008298dd alloc="1.22 GiB" sys="4.26 GiB"
+[INFO] [02-25|16:07:51.392] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|16:08:06.287] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000083dc87 alloc="1.25 GiB" sys="4.26 GiB"
+[INFO] [02-25|16:08:34.431] Flushed buffer file                      name=/home/route/el15066/erigon/dbdir/erigon/data/etl-temp/tg-sync-sortable-buf153846447 alloc="1.65 GiB" sys="4.26 GiB"
+[INFO] [02-25|16:08:36.286] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000084646a alloc="1.81 GiB" sys="4.26 GiB"
+[INFO] [02-25|16:09:06.282] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000858ece alloc="629.93 MiB" sys="4.26 GiB"
+[INFO] [02-25|16:09:36.286] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000086b422 alloc="1.18 GiB" sys="4.26 GiB"
+[INFO] [02-25|16:09:51.392] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|16:10:06.287] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000087d9e9 alloc="1.13 GiB" sys="4.26 GiB"
+[INFO] [02-25|16:10:36.286] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000088fe33 alloc="1.20 GiB" sys="4.26 GiB"
+[INFO] [02-25|16:11:00.692] Flushed buffer file                      name=/home/route/el15066/erigon/dbdir/erigon/data/etl-temp/tg-sync-sortable-buf436007490 alloc="2.10 GiB" sys="4.26 GiB"
+[INFO] [02-25|16:11:06.282] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000008977da alloc="245.17 MiB" sys="4.26 GiB"
+[INFO] [02-25|16:11:36.282] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000008aa456 alloc="567.39 MiB" sys="4.26 GiB"
+[INFO] [02-25|16:11:51.393] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|16:12:06.286] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000008ba827 alloc="1.41 GiB" sys="4.26 GiB"
+[INFO] [02-25|16:12:36.286] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000008cdc36 alloc="1.25 GiB" sys="4.26 GiB"
+[INFO] [02-25|16:13:07.751] Flushed buffer file                      name=/home/route/el15066/erigon/dbdir/erigon/data/etl-temp/tg-sync-sortable-buf195922105 alloc="2.10 GiB" sys="4.26 GiB"
+[INFO] [02-25|16:13:07.853] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000008d7a4d alloc="2.10 GiB" sys="4.26 GiB"
+[INFO] [02-25|16:13:36.287] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000008eafc9 alloc="782.39 MiB" sys="4.26 GiB"
+[INFO] [02-25|16:13:51.393] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|16:14:06.283] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000900b28 alloc="862.02 MiB" sys="4.26 GiB"
+[INFO] [02-25|16:14:36.286] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000911527 alloc="764.00 MiB" sys="4.26 GiB"
+[INFO] [02-25|16:15:23.123] Flushed buffer file                      name=/home/route/el15066/erigon/dbdir/erigon/data/etl-temp/tg-sync-sortable-buf223444676 alloc="1.73 GiB" sys="4.65 GiB"
+[INFO] [02-25|16:15:23.239] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000922b8f alloc="1.73 GiB" sys="4.65 GiB"
+[INFO] [02-25|16:15:36.283] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000092a8da alloc="308.39 MiB" sys="4.65 GiB"
+[INFO] [02-25|16:15:51.393] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|16:16:06.282] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000093ae3a alloc="717.60 MiB" sys="4.65 GiB"
+[INFO] [02-25|16:16:36.283] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000949477 alloc="1.04 GiB" sys="4.65 GiB"
+[INFO] [02-25|16:17:00.507] Flushed buffer file                      name=/home/route/el15066/erigon/dbdir/erigon/data/etl-temp/tg-sync-sortable-buf188825939 alloc="1.94 GiB" sys="4.65 GiB"
+[INFO] [02-25|16:17:06.286] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000950eb6 alloc="2.38 GiB" sys="4.65 GiB"
+[INFO] [02-25|16:17:36.283] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000009617a4 alloc="637.66 MiB" sys="4.65 GiB"
+[INFO] [02-25|16:17:51.393] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|16:18:06.282] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000970af9 alloc="1.10 GiB" sys="4.65 GiB"
+[INFO] [02-25|16:18:49.274] Flushed buffer file                      name=/home/route/el15066/erigon/dbdir/erigon/data/etl-temp/tg-sync-sortable-buf803296918 alloc="1.91 GiB" sys="4.65 GiB"
+[INFO] [02-25|16:18:49.386] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000097e326 alloc="1.91 GiB" sys="4.65 GiB"
+[INFO] [02-25|16:19:06.283] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=000000000098617d alloc="428.94 MiB" sys="4.65 GiB"
+[INFO] [02-25|16:19:36.282] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000994905 alloc="627.54 MiB" sys="4.65 GiB"
+[INFO] [02-25|16:19:51.393] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|16:20:06.282] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000009a2774 alloc="1007.99 MiB" sys="4.65 GiB"
+[INFO] [02-25|16:20:36.286] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000009b0547 alloc="1020.19 MiB" sys="4.65 GiB"
+[INFO] [02-25|16:20:57.446] Flushed buffer file                      name=/home/route/el15066/erigon/dbdir/erigon/data/etl-temp/tg-sync-sortable-buf892714749 alloc="2.27 GiB" sys="4.65 GiB"
+[INFO] [02-25|16:21:06.282] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000009b6a6a alloc="180.70 MiB" sys="4.65 GiB"
+[INFO] [02-25|16:21:36.282] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000009c3b9a alloc="675.02 MiB" sys="4.65 GiB"
+[INFO] [02-25|16:21:51.392] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|16:22:06.285] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000009d0ec6 alloc="1.04 GiB" sys="4.65 GiB"
+[INFO] [02-25|16:22:36.287] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000009dc84f alloc="1.10 GiB" sys="4.65 GiB"
+[INFO] [02-25|16:23:00.898] Flushed buffer file                      name=/home/route/el15066/erigon/dbdir/erigon/data/etl-temp/tg-sync-sortable-buf224751672 alloc="1.94 GiB" sys="4.65 GiB"
+[INFO] [02-25|16:23:06.286] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000009e1b14 alloc="2.35 GiB" sys="4.65 GiB"
+[INFO] [02-25|16:23:36.282] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000009ecc45 alloc="593.00 MiB" sys="4.65 GiB"
+[INFO] [02-25|16:23:51.392] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|16:24:06.283] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=00000000009f74f3 alloc="989.75 MiB" sys="4.65 GiB"
+[INFO] [02-25|16:24:36.286] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000a01ffd alloc="956.64 MiB" sys="4.65 GiB"
+[INFO] [02-25|16:25:01.747] Flushed buffer file                      name=/home/route/el15066/erigon/dbdir/erigon/data/etl-temp/tg-sync-sortable-buf088857143 alloc="1.67 GiB" sys="4.65 GiB"
+[INFO] [02-25|16:25:06.286] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000a0713b alloc="2.03 GiB" sys="4.65 GiB"
+[INFO] [02-25|16:25:36.283] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000a10b3c alloc="589.62 MiB" sys="4.65 GiB"
+[INFO] [02-25|16:25:51.392] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|16:26:06.286] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000a19f4b alloc="1.20 GiB" sys="4.65 GiB"
+[INFO] [02-25|16:26:36.287] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000a2382a alloc="967.32 MiB" sys="4.65 GiB"
+[INFO] [02-25|16:27:13.237] Flushed buffer file                      name=/home/route/el15066/erigon/dbdir/erigon/data/etl-temp/tg-sync-sortable-buf369618474 alloc="1.92 GiB" sys="4.65 GiB"
+[INFO] [02-25|16:27:13.350] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000a2a680 alloc="1.92 GiB" sys="4.65 GiB"
+[INFO] [02-25|16:27:36.283] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000a31974 alloc="503.57 MiB" sys="4.65 GiB"
+[INFO] [02-25|16:27:51.393] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|16:28:06.283] [10/18 HashState] ETL [1/2] Extracting   from=AccountChangeSet current key=0000000000a3b023 alloc="910.37 MiB" sys="4.65 GiB"
+[INFO] [02-25|16:28:34.516] Flushed buffer file                      name=/home/route/el15066/erigon/dbdir/erigon/data/etl-temp/tg-sync-sortable-buf858589569 alloc="1.69 GiB" sys="4.65 GiB"
+[INFO] [02-25|16:29:04.598] [10/18 HashState] ETL [2/2] Loading      into=HashedAccount current key=35ebaafa... alloc="107.07 MiB" sys="4.65 GiB"
+[INFO] [02-25|16:29:34.600] [10/18 HashState] ETL [2/2] Loading      into=HashedAccount current key=63cff74e... alloc="108.62 MiB" sys="4.65 GiB"
+[INFO] [02-25|16:29:51.392] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-25|16:30:04.600] [10/18 HashState] ETL [2/2] Loading      into=HashedAccount current key=8f8c20a6... alloc="137.08 MiB" sys="4.65 GiB"
+[INFO] [02-25|16:30:34.597] [10/18 HashState] ETL [2/2] Loading      into=HashedAccount current key=beb33eee... alloc="95.78 MiB" sys="4.65 GiB"
+[INFO] [02-25|16:31:04.600] [10/18 HashState] ETL [2/2] Loading      into=HashedAccount current key=ee356770... alloc="87.41 MiB" sys="4.65 GiB"
+[INFO] [02-25|16:31:15.324] [10/18 HashState] etl: temp files removed total size="3.8 GB"
+[INFO] [02-25|16:31:15.324] [10/18 HashState] Incremental promotion started from=7499999 to=10749999 codes=false csbucket=StorageChangeSet
+[INFO] [02-25|16:31:45.328] [10/18 HashState] ETL [1/2] Extracting   from=StorageChangeSet current key=0000000000728b626090a6e47849629b7245dfa1ca21d94cd15878ef0000000000000001 alloc="315.66 MiB" sys="4.65 GiB"
+[INFO] [02-25|16:31:51.393] [p2p] GoodPeers                          eth66=0 eth65=0
