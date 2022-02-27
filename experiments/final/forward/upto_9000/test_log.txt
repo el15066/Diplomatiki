@@ -1,0 +1,279 @@
+
+
+# Freq
+for c in 3 4 5 15 16 17; do cpufreq-set -c $c -f '3800MHz' || exit 10; done
++ for c in 3 4 5 15 16 17
++ cpufreq-set -c 3 -f 3800MHz
++ for c in 3 4 5 15 16 17
++ cpufreq-set -c 4 -f 3800MHz
++ for c in 3 4 5 15 16 17
++ cpufreq-set -c 5 -f 3800MHz
++ for c in 3 4 5 15 16 17
++ cpufreq-set -c 15 -f 3800MHz
++ for c in 3 4 5 15 16 17
++ cpufreq-set -c 16 -f 3800MHz
++ for c in 3 4 5 15 16 17
++ cpufreq-set -c 17 -f 3800MHz
+
+# Prep
+cd el15066/erigon/
++ cd el15066/erigon/
+
+# GIT
+sudo -u '#1000' git checkout -- common/globals.go
++ sudo -u '#1000' git checkout -- common/globals.go
+sudo -u '#1000' git checkout forward
++ sudo -u '#1000' git checkout forward
+Switched to branch 'forward'
+Your branch is up to date with 'origin/forward'.
+
+# Globals
+cat common/globals.go.template |
+  sed 's/%UPTO%/9000000/g' |
+tee common/globals.go
++ cat common/globals.go.template
++ sed s/%UPTO%/9000000/g
++ tee common/globals.go
+
+package common
+
+const MAX_BLOCK = 9000000 - 1
+
+# Disk
+rm dbdir
++ rm dbdir
+ln -s '/media/route/sx8200/' dbdir
++ ln -s /media/route/sx8200/ dbdir
+
+# Make
+sudo -u '#1000' make erigon
++ sudo -u '#1000' make erigon
+Building Erigon
+rm -f /home/route/el15066/erigon/build/bin/tg # Remove old binary to prevent confusion where users still use it because of the scripts
+env GO111MODULE=on go build -trimpath -ldflags "-X github.com/ledgerwatch/erigon/params.GitCommit=7b84fde6f4077835867e46a47de0b7559a8262bd -X github.com/ledgerwatch/erigon/params.GitBranch=forward -X github.com/ledgerwatch/erigon/params.GitTag=v2021.08.05-6-g7b84fde6f" -o /home/route/el15066/erigon/build/bin/erigon ./cmd/erigon
+Done building.
+Run "/home/route/el15066/erigon/build/bin/erigon" to launch Erigon.
+
+# Mkdir
+mkdir '../experiments/final/forward/upto_9000/' || true
++ mkdir ../experiments/final/forward/upto_9000/
+
+# Sleep
+sleep 12
++ sleep 12
+
+# Run
+_T0=$(date +%s.%3N)
+++ date +%s.%3N
++ _T0=1645870732.544
+nice --10 taskset -c 3-5,16-17 ./build/bin/erigon --datadir dbdir/erigon/data/ --ethash.dagdir dbdir/erigon/ethash/ --nodiscover --port 30123 |& tee -i '../experiments/final/forward/upto_9000/erigon_log.txt'
++ nice --10 taskset -c 3-5,16-17 ./build/bin/erigon --datadir dbdir/erigon/data/ --ethash.dagdir dbdir/erigon/ethash/ --nodiscover --port 30123
++ tee -i ../experiments/final/forward/upto_9000/erigon_log.txt
+[INFO] [02-26|10:18:52.594] Build info                               git_branch=forward git_tag=v2021.08.05-6-g7b84fde6f git_commit=7b84fde6f4077835867e46a47de0b7559a8262bd
+[INFO] [02-26|10:18:52.594] Starting Erigon on Ethereum mainnet... 
+[INFO] [02-26|10:18:52.595] Maximum peer count                       ETH=100 total=100
+[INFO] [02-26|10:18:52.595] Set global gas cap                       cap=50000000
+[INFO] [02-26|10:18:52.634] Opening Database                         label=chaindata path=dbdir/erigon/data/chaindata
+[INFO] [02-26|10:18:52.636] database closed                          label=chaindata
+[INFO] [02-26|10:18:52.636] Opening Database                         label=chaindata path=/home/route/el15066/erigon/dbdir/erigon/data/chaindata
+[INFO] [02-26|10:18:52.637] Initialised chain configuration          config="{ChainID: 1 Homestead: 1150000 DAO: 1920000 DAOSupport: true EIP150: 2463000 EIP155: 2675000 EIP158: 2675000 Byzantium: 4370000 Constantinople: 7280000 Petersburg: 7280000 Istanbul: 9069000, Muir Glacier: 9200000, Berlin: 12244000, London: 12965000, Engine: ethash}"
+[INFO] [02-26|10:18:52.637] Disk storage enabled for ethash DAGs     dir=dbdir/erigon/ethash count=2
+[INFO] [02-26|10:18:52.637] Initialising Ethereum protocol           network=1
+[INFO] [02-26|10:18:52.637] Effective                                prune="--prune="
+[INFO] [02-26|10:18:52.637] Starting private RPC server              on=127.0.0.1:9090
+[INFO] [02-26|10:18:53.081] [7/18 Execution] Blocks execution        from=8749999 to=8999999
+[INFO] [02-26|10:18:53.110] Started P2P networking                   version=65 self="enode://cf90152aad373d1608af933850566e82f8ad78089ffe361b9f94664a081ba07596b6dbf4b38dfdde9f4a7470414f76c803b66ad56e4920db7bb09fa445d3c458@127.0.0.1:30304?discport=0" name=erigon/v2021.08.5-alpha-7b84fde6/linux-amd64/go1.16.14
+[INFO] [02-26|10:18:53.137] Started P2P networking                   version=66 self="enode://cf90152aad373d1608af933850566e82f8ad78089ffe361b9f94664a081ba07596b6dbf4b38dfdde9f4a7470414f76c803b66ad56e4920db7bb09fa445d3c458@127.0.0.1:30123?discport=0" name=erigon/v2021.08.5-alpha-7b84fde6/linux-amd64/go1.16.14
+[INFO] [02-26|10:19:23.084] [7/18 Execution] Executed blocks         number=8752593 blk/s=86.458 tx/s=11075.291 Mgas/s=644.789 batch="28.15 MiB" alloc="197.28 MiB" sys="410.97 MiB"
+[INFO] [02-26|10:19:53.084] [7/18 Execution] Executed blocks         number=8755620 blk/s=100.901 tx/s=8977.086 Mgas/s=634.890 batch="56.63 MiB" alloc="297.72 MiB" sys="546.70 MiB"
+[INFO] [02-26|10:20:23.092] [7/18 Execution] Executed blocks         number=8758274 blk/s=88.441 tx/s=11560.262 Mgas/s=649.581 batch="79.34 MiB" alloc="321.04 MiB" sys="682.69 MiB"
+[INFO] [02-26|10:20:52.638] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|10:20:53.084] [7/18 Execution] Executed blocks         number=8761038 blk/s=92.160 tx/s=9601.882 Mgas/s=625.326 batch="100.34 MiB" alloc="493.56 MiB" sys="751.32 MiB"
+[INFO] [02-26|10:21:23.088] [7/18 Execution] Executed blocks         number=8763766 blk/s=90.921 tx/s=10864.879 Mgas/s=619.085 batch="121.28 MiB" alloc="490.55 MiB" sys="887.18 MiB"
+[INFO] [02-26|10:21:53.083] [7/18 Execution] Executed blocks         number=8766180 blk/s=80.480 tx/s=10495.623 Mgas/s=606.629 batch="142.21 MiB" alloc="717.63 MiB" sys="1022.50 MiB"
+[INFO] [02-26|10:22:23.083] [7/18 Execution] Executed blocks         number=8769248 blk/s=102.265 tx/s=9311.327 Mgas/s=599.934 batch="163.75 MiB" alloc="608.78 MiB" sys="1.13 GiB"
+[INFO] [02-26|10:22:52.638] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|10:22:53.090] [7/18 Execution] Executed blocks         number=8771836 blk/s=86.248 tx/s=10329.783 Mgas/s=585.917 batch="183.00 MiB" alloc="1.04 GiB" sys="1.20 GiB"
+[INFO] [02-26|10:23:23.083] [7/18 Execution] Executed blocks         number=8775141 blk/s=110.193 tx/s=9801.722 Mgas/s=615.929 batch="203.59 MiB" alloc="923.41 MiB" sys="1.26 GiB"
+[INFO] [02-26|10:23:53.091] [7/18 Execution] Executed blocks         number=8778064 blk/s=97.405 tx/s=10135.280 Mgas/s=565.803 batch="221.52 MiB" alloc="873.98 MiB" sys="1.40 GiB"
+[INFO] [02-26|10:24:23.096] [7/18 Execution] Executed blocks         number=8781027 blk/s=98.751 tx/s=8476.995 Mgas/s=549.541 batch="239.17 MiB" alloc="719.44 MiB" sys="1.46 GiB"
+[INFO] [02-26|10:24:52.638] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|10:24:53.090] [7/18 Execution] Executed blocks         number=8783124 blk/s=69.913 tx/s=9338.122 Mgas/s=483.399 batch="254.16 MiB" alloc="1.16 GiB" sys="1.53 GiB"
+[INFO] [02-26|10:25:23.103] [7/18 Execution] Executed blocks         number=8785223 blk/s=69.938 tx/s=8087.408 Mgas/s=480.550 batch="267.65 MiB" alloc="1.47 GiB" sys="1.66 GiB"
+[INFO] [02-26|10:25:53.093] [7/18 Execution] Executed blocks         number=8787887 blk/s=88.828 tx/s=7936.658 Mgas/s=499.082 batch="283.57 MiB" alloc="1.52 GiB" sys="1.73 GiB"
+[INFO] [02-26|10:26:23.086] [7/18 Execution] Executed blocks         number=8789980 blk/s=69.783 tx/s=9472.143 Mgas/s=500.234 batch="297.64 MiB" alloc="1.56 GiB" sys="1.79 GiB"
+[INFO] [02-26|10:26:52.638] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|10:26:53.087] [7/18 Execution] Executed blocks         number=8791886 blk/s=63.530 tx/s=7677.348 Mgas/s=474.475 batch="312.13 MiB" alloc="1.19 GiB" sys="1.86 GiB"
+[INFO] [02-26|10:27:23.095] [7/18 Execution] Executed blocks         number=8794344 blk/s=81.914 tx/s=6878.355 Mgas/s=533.753 batch="334.97 MiB" alloc="1.39 GiB" sys="1.99 GiB"
+[INFO] [02-26|10:27:53.095] [7/18 Execution] Executed blocks         number=8796278 blk/s=64.465 tx/s=8579.657 Mgas/s=508.637 batch="352.63 MiB" alloc="1.20 GiB" sys="2.06 GiB"
+[INFO] [02-26|10:28:23.088] [7/18 Execution] Executed blocks         number=8797963 blk/s=56.181 tx/s=7365.718 Mgas/s=477.083 batch="367.71 MiB" alloc="1.67 GiB" sys="2.12 GiB"
+[INFO] [02-26|10:28:52.642] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|10:28:53.114] [7/18 Execution] Executed blocks         number=8800268 blk/s=76.765 tx/s=7018.126 Mgas/s=557.752 batch="388.67 MiB" alloc="2.04 GiB" sys="2.26 GiB"
+[INFO] [02-26|10:29:23.082] [7/18 Execution] Executed blocks         number=8802260 blk/s=66.471 tx/s=9348.420 Mgas/s=537.195 batch="407.56 MiB" alloc="1.54 GiB" sys="2.32 GiB"
+[INFO] [02-26|10:29:53.086] [7/18 Execution] Executed blocks         number=8804373 blk/s=70.424 tx/s=8631.711 Mgas/s=565.365 batch="427.78 MiB" alloc="1.77 GiB" sys="2.46 GiB"
+[INFO] [02-26|10:30:23.083] [7/18 Execution] Executed blocks         number=8806834 blk/s=82.041 tx/s=7493.674 Mgas/s=568.183 batch="448.64 MiB" alloc="1.60 GiB" sys="2.52 GiB"
+[INFO] [02-26|10:30:52.637] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|10:30:53.088] [7/18 Execution] Executed blocks         number=8808830 blk/s=66.523 tx/s=9426.144 Mgas/s=510.850 batch="462.02 MiB" alloc="1.41 GiB" sys="2.59 GiB"
+[INFO] [02-26|10:31:23.085] [7/18 Execution] Executed blocks         number=8810656 blk/s=60.871 tx/s=8312.247 Mgas/s=500.879 batch="474.66 MiB" alloc="2.17 GiB" sys="2.72 GiB"
+[INFO] [02-26|10:31:53.133] [7/18 Execution] Executed blocks         number=8812742 blk/s=69.423 tx/s=6435.879 Mgas/s=466.236 batch="486.54 MiB" alloc="2.54 GiB" sys="2.79 GiB"
+[INFO] [02-26|10:32:23.086] [7/18 Execution] Executed blocks         number=8814679 blk/s=64.667 tx/s=8903.731 Mgas/s=488.014 batch="498.63 MiB" alloc="1.87 GiB" sys="2.85 GiB"
+[INFO] [02-26|10:32:52.637] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|10:33:22.214] Write to db                              progress=6.8M/7.7M current table=PlainState
+[INFO] [02-26|10:33:30.202] [7/18 Execution] Executed blocks         number=8816606 blk/s=28.712 tx/s=3542.362 Mgas/s=213.092 batch="0.00 B" alloc="2.58 GiB" sys="2.92 GiB"
+[INFO] [02-26|10:33:53.101] [7/18 Execution] Executed blocks         number=8819083 blk/s=108.173 tx/s=8789.810 Mgas/s=572.251 batch="21.20 MiB" alloc="146.93 MiB" sys="2.92 GiB"
+[INFO] [02-26|10:34:23.095] [7/18 Execution] Executed blocks         number=8821825 blk/s=91.418 tx/s=10516.168 Mgas/s=567.318 batch="44.18 MiB" alloc="367.04 MiB" sys="2.92 GiB"
+[INFO] [02-26|10:34:52.638] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|10:34:53.090] [7/18 Execution] Executed blocks         number=8824495 blk/s=89.016 tx/s=8304.363 Mgas/s=542.414 batch="64.45 MiB" alloc="364.32 MiB" sys="2.92 GiB"
+[INFO] [02-26|10:35:23.090] [7/18 Execution] Executed blocks         number=8826826 blk/s=77.700 tx/s=10459.110 Mgas/s=565.216 batch="83.00 MiB" alloc="401.61 MiB" sys="2.92 GiB"
+[INFO] [02-26|10:35:53.082] [7/18 Execution] Executed blocks         number=8829117 blk/s=76.385 tx/s=9401.467 Mgas/s=591.306 batch="101.61 MiB" alloc="503.83 MiB" sys="2.92 GiB"
+[INFO] [02-26|10:36:23.083] [7/18 Execution] Executed blocks         number=8831747 blk/s=87.664 tx/s=8224.127 Mgas/s=583.031 batch="120.16 MiB" alloc="706.40 MiB" sys="2.92 GiB"
+[INFO] [02-26|10:36:52.637] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|10:36:53.092] [7/18 Execution] Executed blocks         number=8833731 blk/s=66.114 tx/s=9098.880 Mgas/s=523.936 batch="135.55 MiB" alloc="811.60 MiB" sys="2.92 GiB"
+[INFO] [02-26|10:37:23.106] [7/18 Execution] Executed blocks         number=8835786 blk/s=68.469 tx/s=7773.082 Mgas/s=531.610 batch="150.72 MiB" alloc="714.32 MiB" sys="2.92 GiB"
+[INFO] [02-26|10:37:53.089] [7/18 Execution] Executed blocks         number=8837934 blk/s=71.640 tx/s=6528.557 Mgas/s=504.323 batch="165.25 MiB" alloc="955.13 MiB" sys="2.92 GiB"
+[INFO] [02-26|10:38:23.090] [7/18 Execution] Executed blocks         number=8839684 blk/s=58.332 tx/s=7826.945 Mgas/s=475.258 batch="179.07 MiB" alloc="885.10 MiB" sys="2.92 GiB"
+[INFO] [02-26|10:38:52.637] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|10:38:53.092] [7/18 Execution] Executed blocks         number=8841319 blk/s=54.496 tx/s=6765.676 Mgas/s=445.256 batch="191.66 MiB" alloc="907.13 MiB" sys="2.92 GiB"
+[INFO] [02-26|10:39:23.085] [7/18 Execution] Executed blocks         number=8843768 blk/s=81.651 tx/s=7699.367 Mgas/s=555.062 batch="208.38 MiB" alloc="1021.20 MiB" sys="2.92 GiB"
+[INFO] [02-26|10:39:53.093] [7/18 Execution] Executed blocks         number=8845986 blk/s=73.913 tx/s=10540.864 Mgas/s=580.839 batch="225.83 MiB" alloc="1.03 GiB" sys="2.92 GiB"
+[INFO] [02-26|10:40:23.085] [7/18 Execution] Executed blocks         number=8848314 blk/s=77.621 tx/s=9346.321 Mgas/s=562.267 batch="242.30 MiB" alloc="1.25 GiB" sys="2.92 GiB"
+[INFO] [02-26|10:40:52.638] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|10:40:53.084] [7/18 Execution] Executed blocks         number=8850982 blk/s=88.938 tx/s=9465.491 Mgas/s=556.608 batch="258.41 MiB" alloc="1.24 GiB" sys="2.92 GiB"
+[INFO] [02-26|10:41:23.090] [7/18 Execution] Executed blocks         number=8853107 blk/s=70.819 tx/s=9583.956 Mgas/s=548.749 batch="274.86 MiB" alloc="816.63 MiB" sys="2.92 GiB"
+[INFO] [02-26|10:41:53.089] [7/18 Execution] Executed blocks         number=8855748 blk/s=88.034 tx/s=7325.100 Mgas/s=535.070 batch="292.69 MiB" alloc="1.38 GiB" sys="2.92 GiB"
+[INFO] [02-26|10:42:23.084] [7/18 Execution] Executed blocks         number=8857882 blk/s=71.146 tx/s=8172.402 Mgas/s=513.889 batch="307.62 MiB" alloc="950.14 MiB" sys="2.92 GiB"
+[INFO] [02-26|10:42:52.637] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|10:42:53.093] [7/18 Execution] Executed blocks         number=8859842 blk/s=65.313 tx/s=7091.854 Mgas/s=500.775 batch="323.20 MiB" alloc="1.01 GiB" sys="2.92 GiB"
+[INFO] [02-26|10:43:23.094] [7/18 Execution] Executed blocks         number=8862694 blk/s=95.065 tx/s=7116.961 Mgas/s=521.743 batch="339.57 MiB" alloc="1.05 GiB" sys="2.92 GiB"
+[INFO] [02-26|10:43:53.091] [7/18 Execution] Executed blocks         number=8864298 blk/s=53.471 tx/s=5745.620 Mgas/s=422.552 batch="349.86 MiB" alloc="1.16 GiB" sys="2.92 GiB"
+[INFO] [02-26|10:44:23.086] [7/18 Execution] Executed blocks         number=8866008 blk/s=57.010 tx/s=5628.702 Mgas/s=437.429 batch="361.47 MiB" alloc="1.24 GiB" sys="2.92 GiB"
+[INFO] [02-26|10:44:52.637] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|10:44:53.109] [7/18 Execution] Executed blocks         number=8867939 blk/s=64.318 tx/s=4378.308 Mgas/s=437.685 batch="374.92 MiB" alloc="1.12 GiB" sys="2.92 GiB"
+[INFO] [02-26|10:45:23.113] [7/18 Execution] Executed blocks         number=8869504 blk/s=52.158 tx/s=5819.918 Mgas/s=426.474 batch="385.68 MiB" alloc="1.95 GiB" sys="2.92 GiB"
+[INFO] [02-26|10:45:53.091] [7/18 Execution] Executed blocks         number=8871123 blk/s=54.006 tx/s=6934.629 Mgas/s=452.066 batch="397.66 MiB" alloc="1.90 GiB" sys="2.92 GiB"
+[INFO] [02-26|10:46:23.106] [7/18 Execution] Executed blocks         number=8873045 blk/s=64.035 tx/s=7091.800 Mgas/s=476.715 batch="410.75 MiB" alloc="1.83 GiB" sys="2.92 GiB"
+[INFO] [02-26|10:46:52.640] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|10:46:53.095] [7/18 Execution] Executed blocks         number=8874927 blk/s=62.756 tx/s=5191.164 Mgas/s=444.821 batch="422.97 MiB" alloc="1.18 GiB" sys="2.92 GiB"
+[INFO] [02-26|10:47:23.092] [7/18 Execution] Executed blocks         number=8876710 blk/s=59.441 tx/s=8869.962 Mgas/s=500.412 batch="435.92 MiB" alloc="2.12 GiB" sys="2.92 GiB"
+[INFO] [02-26|10:47:53.094] [7/18 Execution] Executed blocks         number=8878547 blk/s=61.229 tx/s=7655.760 Mgas/s=494.642 batch="449.79 MiB" alloc="1.75 GiB" sys="2.92 GiB"
+[INFO] [02-26|10:48:23.103] [7/18 Execution] Executed blocks         number=8880833 blk/s=76.177 tx/s=6817.804 Mgas/s=491.996 batch="464.42 MiB" alloc="2.38 GiB" sys="2.92 GiB"
+[INFO] [02-26|10:48:52.638] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|10:48:53.093] [7/18 Execution] Executed blocks         number=8882804 blk/s=65.723 tx/s=9218.130 Mgas/s=496.866 batch="477.38 MiB" alloc="1.92 GiB" sys="2.92 GiB"
+[INFO] [02-26|10:49:23.083] [7/18 Execution] Executed blocks         number=8884752 blk/s=64.955 tx/s=8190.100 Mgas/s=505.302 batch="490.83 MiB" alloc="2.46 GiB" sys="2.92 GiB"
+[INFO] [02-26|10:49:53.135] [7/18 Execution] Executed blocks         number=8886941 blk/s=72.841 tx/s=5809.656 Mgas/s=473.956 batch="505.51 MiB" alloc="2.58 GiB" sys="2.92 GiB"
+[INFO] [02-26|10:50:46.792] [7/18 Execution] Executed blocks         number=8887945 blk/s=18.711 tx/s=2469.413 Mgas/s=143.107 batch="0.00 B" alloc="1.32 GiB" sys="2.92 GiB"
+[INFO] [02-26|10:50:52.638] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|10:50:53.089] [7/18 Execution] Executed blocks         number=8888437 blk/s=78.127 tx/s=10103.316 Mgas/s=597.623 batch="6.67 MiB" alloc="2.43 GiB" sys="2.92 GiB"
+[INFO] [02-26|10:51:23.096] [7/18 Execution] Executed blocks         number=8890393 blk/s=65.186 tx/s=12975.168 Mgas/s=583.202 batch="33.03 MiB" alloc="274.11 MiB" sys="2.92 GiB"
+[INFO] [02-26|10:51:53.099] [7/18 Execution] Executed blocks         number=8893080 blk/s=89.558 tx/s=8969.558 Mgas/s=582.259 batch="59.43 MiB" alloc="288.37 MiB" sys="2.92 GiB"
+[INFO] [02-26|10:52:23.087] [7/18 Execution] Executed blocks         number=8894723 blk/s=54.787 tx/s=7259.254 Mgas/s=449.257 batch="73.85 MiB" alloc="401.06 MiB" sys="2.92 GiB"
+[INFO] [02-26|10:52:52.637] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|10:52:53.089] [7/18 Execution] Executed blocks         number=8896361 blk/s=54.596 tx/s=7435.822 Mgas/s=444.775 batch="88.46 MiB" alloc="457.48 MiB" sys="2.92 GiB"
+[INFO] [02-26|10:53:23.102] [7/18 Execution] Executed blocks         number=8897989 blk/s=54.244 tx/s=5590.497 Mgas/s=429.233 batch="101.59 MiB" alloc="548.61 MiB" sys="2.92 GiB"
+[INFO] [02-26|10:53:53.083] [7/18 Execution] Executed blocks         number=8899322 blk/s=44.462 tx/s=3101.076 Mgas/s=347.421 batch="111.42 MiB" alloc="514.68 MiB" sys="2.92 GiB"
+[INFO] [02-26|10:54:23.105] [7/18 Execution] Executed blocks         number=8900921 blk/s=53.260 tx/s=6395.403 Mgas/s=425.189 batch="123.25 MiB" alloc="771.38 MiB" sys="2.92 GiB"
+[INFO] [02-26|10:54:52.638] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|10:54:53.088] [7/18 Execution] Executed blocks         number=8902559 blk/s=54.631 tx/s=6567.389 Mgas/s=425.710 batch="135.38 MiB" alloc="515.90 MiB" sys="2.92 GiB"
+[INFO] [02-26|10:55:23.103] [7/18 Execution] Executed blocks         number=8904203 blk/s=54.773 tx/s=4820.290 Mgas/s=420.466 batch="147.30 MiB" alloc="743.11 MiB" sys="2.92 GiB"
+[INFO] [02-26|10:55:53.092] [7/18 Execution] Executed blocks         number=8905842 blk/s=54.653 tx/s=3547.634 Mgas/s=385.278 batch="157.98 MiB" alloc="839.43 MiB" sys="2.92 GiB"
+[INFO] [02-26|10:56:23.093] [7/18 Execution] Executed blocks         number=8907660 blk/s=60.597 tx/s=7724.520 Mgas/s=467.212 batch="171.97 MiB" alloc="842.74 MiB" sys="2.92 GiB"
+[INFO] [02-26|10:56:52.637] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|10:56:53.097] [7/18 Execution] Executed blocks         number=8909441 blk/s=59.360 tx/s=6828.265 Mgas/s=456.802 batch="185.45 MiB" alloc="954.08 MiB" sys="2.92 GiB"
+[INFO] [02-26|10:57:23.084] [7/18 Execution] Executed blocks         number=8911361 blk/s=64.027 tx/s=4336.946 Mgas/s=434.903 batch="198.09 MiB" alloc="962.18 MiB" sys="2.92 GiB"
+[INFO] [02-26|10:57:53.095] [7/18 Execution] Executed blocks         number=8913130 blk/s=58.946 tx/s=7781.958 Mgas/s=483.132 batch="213.99 MiB" alloc="795.34 MiB" sys="2.92 GiB"
+[INFO] [02-26|10:58:23.086] [7/18 Execution] Executed blocks         number=8914961 blk/s=61.052 tx/s=8857.095 Mgas/s=516.871 batch="232.43 MiB" alloc="1.17 GiB" sys="2.92 GiB"
+[INFO] [02-26|10:58:52.637] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|10:58:53.094] [7/18 Execution] Executed blocks         number=8916791 blk/s=60.983 tx/s=5641.546 Mgas/s=457.702 batch="248.80 MiB" alloc="1.28 GiB" sys="2.92 GiB"
+[INFO] [02-26|10:59:23.129] [7/18 Execution] Executed blocks         number=8918683 blk/s=62.993 tx/s=7496.871 Mgas/s=477.399 batch="263.45 MiB" alloc="1.40 GiB" sys="2.92 GiB"
+[INFO] [02-26|10:59:53.109] [7/18 Execution] Executed blocks         number=8920488 blk/s=60.206 tx/s=8214.576 Mgas/s=486.212 batch="279.45 MiB" alloc="1.49 GiB" sys="2.92 GiB"
+[INFO] [02-26|11:00:23.093] [7/18 Execution] Executed blocks         number=8922296 blk/s=60.300 tx/s=6591.581 Mgas/s=477.924 batch="295.92 MiB" alloc="1.06 GiB" sys="2.92 GiB"
+[INFO] [02-26|11:00:52.638] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|11:00:53.088] [7/18 Execution] Executed blocks         number=8924179 blk/s=62.777 tx/s=6374.089 Mgas/s=493.771 batch="313.98 MiB" alloc="1.15 GiB" sys="2.92 GiB"
+[INFO] [02-26|11:01:23.086] [7/18 Execution] Executed blocks         number=8925968 blk/s=59.637 tx/s=8712.063 Mgas/s=496.568 batch="329.82 MiB" alloc="1.40 GiB" sys="2.92 GiB"
+[INFO] [02-26|11:01:53.084] [7/18 Execution] Executed blocks         number=8927761 blk/s=59.769 tx/s=7462.327 Mgas/s=469.123 batch="343.01 MiB" alloc="1.35 GiB" sys="2.92 GiB"
+[INFO] [02-26|11:02:23.097] [7/18 Execution] Executed blocks         number=8930003 blk/s=74.701 tx/s=6384.547 Mgas/s=521.562 batch="357.84 MiB" alloc="1.07 GiB" sys="2.92 GiB"
+[INFO] [02-26|11:02:52.638] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|11:02:53.098] [7/18 Execution] Executed blocks         number=8931689 blk/s=56.198 tx/s=8266.307 Mgas/s=467.378 batch="370.88 MiB" alloc="1.58 GiB" sys="2.92 GiB"
+[INFO] [02-26|11:03:23.098] [7/18 Execution] Executed blocks         number=8933364 blk/s=55.834 tx/s=6822.257 Mgas/s=466.102 batch="383.22 MiB" alloc="1.75 GiB" sys="2.92 GiB"
+[INFO] [02-26|11:03:53.085] [7/18 Execution] Executed blocks         number=8934965 blk/s=53.389 tx/s=3979.058 Mgas/s=406.661 batch="394.26 MiB" alloc="1.21 GiB" sys="2.92 GiB"
+[INFO] [02-26|11:04:23.100] [7/18 Execution] Executed blocks         number=8936562 blk/s=53.206 tx/s=6341.113 Mgas/s=438.430 batch="405.49 MiB" alloc="2.02 GiB" sys="2.92 GiB"
+[INFO] [02-26|11:04:52.638] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|11:04:53.097] [7/18 Execution] Executed blocks         number=8938154 blk/s=53.073 tx/s=7162.695 Mgas/s=440.889 batch="417.14 MiB" alloc="1.76 GiB" sys="2.92 GiB"
+[INFO] [02-26|11:05:23.088] [7/18 Execution] Executed blocks         number=8939831 blk/s=55.917 tx/s=6561.035 Mgas/s=461.186 batch="431.78 MiB" alloc="1.35 GiB" sys="2.92 GiB"
+[INFO] [02-26|11:05:53.089] [7/18 Execution] Executed blocks         number=8941445 blk/s=53.798 tx/s=4042.618 Mgas/s=420.480 batch="444.83 MiB" alloc="1.50 GiB" sys="2.92 GiB"
+[INFO] [02-26|11:06:23.084] [7/18 Execution] Executed blocks         number=8943219 blk/s=59.144 tx/s=7129.108 Mgas/s=486.186 batch="461.33 MiB" alloc="2.17 GiB" sys="2.92 GiB"
+[INFO] [02-26|11:06:52.638] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|11:06:53.094] [7/18 Execution] Executed blocks         number=8945022 blk/s=60.079 tx/s=7143.392 Mgas/s=458.926 batch="473.87 MiB" alloc="1.52 GiB" sys="2.92 GiB"
+[INFO] [02-26|11:07:23.086] [7/18 Execution] Executed blocks         number=8946554 blk/s=51.081 tx/s=3770.896 Mgas/s=390.560 batch="483.78 MiB" alloc="1.70 GiB" sys="2.92 GiB"
+[INFO] [02-26|11:07:53.100] [7/18 Execution] Executed blocks         number=8948068 blk/s=50.443 tx/s=3848.063 Mgas/s=388.739 batch="493.25 MiB" alloc="1.88 GiB" sys="2.92 GiB"
+[INFO] [02-26|11:08:23.092] [7/18 Execution] Executed blocks         number=8949581 blk/s=50.447 tx/s=5811.385 Mgas/s=399.862 batch="501.27 MiB" alloc="2.14 GiB" sys="2.92 GiB"
+[INFO] [02-26|11:08:52.637] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|11:09:21.002] Write to db                              progress=1.3M/7.6M current table=PlainState
+[INFO] [02-26|11:09:51.003] Write to db                              progress=2.2M/7.6M current table=PlainState
+[INFO] [02-26|11:10:21.870] [7/18 Execution] Executed blocks         number=8951044 blk/s=12.317 tx/s=1356.826 Mgas/s=101.414 batch="0.00 B" alloc="2.40 GiB" sys="2.92 GiB"
+[INFO] [02-26|11:10:23.098] [7/18 Execution] Executed blocks         number=8951124 blk/s=65.142 tx/s=6826.841 Mgas/s=550.167 batch="1.31 MiB" alloc="2.60 GiB" sys="2.92 GiB"
+[INFO] [02-26|11:10:52.637] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|11:10:53.093] [7/18 Execution] Executed blocks         number=8952819 blk/s=56.509 tx/s=4798.344 Mgas/s=448.684 batch="20.18 MiB" alloc="188.27 MiB" sys="2.92 GiB"
+[INFO] [02-26|11:11:23.089] [7/18 Execution] Executed blocks         number=8954542 blk/s=57.440 tx/s=6637.212 Mgas/s=475.817 batch="38.15 MiB" alloc="318.84 MiB" sys="2.92 GiB"
+[INFO] [02-26|11:11:53.110] [7/18 Execution] Executed blocks         number=8956315 blk/s=59.059 tx/s=8086.336 Mgas/s=493.868 batch="57.32 MiB" alloc="427.87 MiB" sys="2.92 GiB"
+[INFO] [02-26|11:12:23.099] [7/18 Execution] Executed blocks         number=8958319 blk/s=66.825 tx/s=8028.531 Mgas/s=545.636 batch="77.39 MiB" alloc="382.80 MiB" sys="2.92 GiB"
+[INFO] [02-26|11:12:52.638] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|11:12:53.110] [7/18 Execution] Executed blocks         number=8960332 blk/s=67.074 tx/s=7833.273 Mgas/s=533.573 batch="94.74 MiB" alloc="375.82 MiB" sys="2.92 GiB"
+[INFO] [02-26|11:13:23.085] [7/18 Execution] Executed blocks         number=8962286 blk/s=65.188 tx/s=9810.744 Mgas/s=544.630 batch="113.38 MiB" alloc="566.11 MiB" sys="2.92 GiB"
+[INFO] [02-26|11:13:53.117] [7/18 Execution] Executed blocks         number=8964277 blk/s=66.295 tx/s=7728.206 Mgas/s=537.424 batch="130.83 MiB" alloc="806.13 MiB" sys="2.92 GiB"
+[INFO] [02-26|11:14:23.082] [7/18 Execution] Executed blocks         number=8966512 blk/s=74.588 tx/s=7571.491 Mgas/s=571.303 batch="149.23 MiB" alloc="581.43 MiB" sys="2.92 GiB"
+[INFO] [02-26|11:14:52.638] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|11:14:53.098] [7/18 Execution] Executed blocks         number=8968511 blk/s=66.597 tx/s=9231.598 Mgas/s=567.928 batch="167.34 MiB" alloc="908.15 MiB" sys="2.92 GiB"
+[INFO] [02-26|11:15:23.103] [7/18 Execution] Executed blocks         number=8970519 blk/s=66.924 tx/s=6782.274 Mgas/s=540.464 batch="183.93 MiB" alloc="888.07 MiB" sys="2.92 GiB"
+[INFO] [02-26|11:15:53.092] [7/18 Execution] Executed blocks         number=8972736 blk/s=73.927 tx/s=8111.333 Mgas/s=598.064 batch="203.72 MiB" alloc="643.30 MiB" sys="2.92 GiB"
+[INFO] [02-26|11:16:23.084] [7/18 Execution] Executed blocks         number=8974639 blk/s=63.449 tx/s=9393.369 Mgas/s=561.306 batch="220.92 MiB" alloc="759.47 MiB" sys="2.92 GiB"
+[INFO] [02-26|11:16:52.638] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|11:16:53.092] [7/18 Execution] Executed blocks         number=8976649 blk/s=66.983 tx/s=7632.789 Mgas/s=583.775 batch="237.30 MiB" alloc="1013.87 MiB" sys="2.92 GiB"
+[INFO] [02-26|11:17:23.090] [7/18 Execution] Executed blocks         number=8978874 blk/s=74.172 tx/s=8926.713 Mgas/s=629.739 batch="252.85 MiB" alloc="1.02 GiB" sys="2.92 GiB"
+[INFO] [02-26|11:17:53.091] [7/18 Execution] Executed blocks         number=8980370 blk/s=49.864 tx/s=7950.593 Mgas/s=475.119 batch="264.66 MiB" alloc="1.32 GiB" sys="2.92 GiB"
+[INFO] [02-26|11:18:23.099] [7/18 Execution] Executed blocks         number=8981909 blk/s=51.286 tx/s=7465.668 Mgas/s=464.401 batch="276.99 MiB" alloc="1.29 GiB" sys="2.92 GiB"
+[INFO] [02-26|11:18:52.654] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|11:18:53.085] [7/18 Execution] Executed blocks         number=8983690 blk/s=59.396 tx/s=5513.897 Mgas/s=452.463 batch="290.71 MiB" alloc="869.33 MiB" sys="2.92 GiB"
+[INFO] [02-26|11:19:23.100] [7/18 Execution] Executed blocks         number=8985574 blk/s=62.769 tx/s=8371.972 Mgas/s=487.882 batch="303.88 MiB" alloc="1.47 GiB" sys="2.92 GiB"
+[INFO] [02-26|11:19:53.098] [7/18 Execution] Executed blocks         number=8987477 blk/s=63.438 tx/s=7089.966 Mgas/s=479.514 batch="318.19 MiB" alloc="1.71 GiB" sys="2.92 GiB"
+[INFO] [02-26|11:20:23.099] [7/18 Execution] Executed blocks         number=8989705 blk/s=74.262 tx/s=5439.883 Mgas/s=452.566 batch="332.97 MiB" alloc="1.34 GiB" sys="2.92 GiB"
+[INFO] [02-26|11:20:52.638] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|11:20:53.089] [7/18 Execution] Executed blocks         number=8991640 blk/s=64.523 tx/s=7629.156 Mgas/s=474.132 batch="345.52 MiB" alloc="1.12 GiB" sys="2.92 GiB"
+[INFO] [02-26|11:21:23.082] [7/18 Execution] Executed blocks         number=8993495 blk/s=61.847 tx/s=6729.137 Mgas/s=469.036 batch="358.60 MiB" alloc="1.64 GiB" sys="2.92 GiB"
+[INFO] [02-26|11:21:53.092] [7/18 Execution] Executed blocks         number=8995471 blk/s=65.844 tx/s=4739.771 Mgas/s=437.447 batch="370.60 MiB" alloc="1.72 GiB" sys="2.92 GiB"
+[INFO] [02-26|11:22:23.105] [7/18 Execution] Executed blocks         number=8997004 blk/s=51.078 tx/s=7222.921 Mgas/s=452.032 batch="382.69 MiB" alloc="2.01 GiB" sys="2.92 GiB"
+[INFO] [02-26|11:22:52.647] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|11:22:53.092] [7/18 Execution] Executed blocks         number=8998501 blk/s=49.922 tx/s=8302.853 Mgas/s=462.361 batch="395.78 MiB" alloc="1.14 GiB" sys="2.92 GiB"
+[INFO] [02-26|11:23:48.567] Write to db                              progress=1.4M/6.3M current table=PlainState
+[INFO] [02-26|11:24:18.567] Write to db                              progress=2.7M/6.3M current table=PlainState
+[INFO] [02-26|11:24:48.566] Write to db                              progress=4.5M/6.3M current table=PlainState
+[INFO] [02-26|11:24:52.637] [p2p] GoodPeers                          eth66=0 eth65=0
+[INFO] [02-26|11:24:59.250] [7/18 Execution] Completed on            block=8999999
+[INFO] [02-26|11:24:59.250] Got interrupt, shutting down... 
+[INFO] [02-26|11:24:59.251] Successfully update p2p node database    path=/home/route/el15066/erigon/dbdir/erigon/data/nodes/eth66 updated=0 deleted=1
+[INFO] [02-26|11:24:59.251] database closed                          label=sentry
+[INFO] [02-26|11:24:59.252] Successfully update p2p node database    path=/home/route/el15066/erigon/dbdir/erigon/data/nodes/eth65 updated=0 deleted=1
+[INFO] [02-26|11:24:59.252] database closed                          label=sentry
+[INFO] [02-26|11:25:00.313] database closed                          label=chaindata
+_T1=$(date +%s.%3N)
+++ date +%s.%3N
++ _T1=1645874700.529
+_D=$(bc <<< "${_T1}-${_T0}")
+++ bc
++ _D=3967.985
+
+# UN GIT
+sudo -u '#1000' git checkout -- common/globals.go
++ sudo -u '#1000' git checkout -- common/globals.go
+sudo -u '#1000' git checkout inline_uv
++ sudo -u '#1000' git checkout inline_uv
+Your branch is up to date with 'origin/inline_uv'.
+Switched to branch 'inline_uv'
+
+# info.txt
+printf 'UPTO 9000000\n'"WALL_TIME ${_D}\n" >'../experiments/final/forward/upto_9000/info.txt'
++ printf 'UPTO 9000000\nWALL_TIME 3967.985\n'
+
+# chown
+chown 1000:1000 -R '../experiments/final/forward/upto_9000/'
++ chown 1000:1000 -R ../experiments/final/forward/upto_9000/

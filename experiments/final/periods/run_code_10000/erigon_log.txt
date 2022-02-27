@@ -1,0 +1,51 @@
+[INFO] [02-26|19:35:12.904] Build info                               git_branch=inline_uv git_tag=v2021.08.05-370-g8c9ccd401 git_commit=8c9ccd401feec75029c402251ac083ce908ed03a
+[INFO] [02-26|19:35:12.904] Starting Erigon on Ethereum mainnet... 
+[INFO] [02-26|19:35:12.905] Maximum peer count                       ETH=100 total=100
+[INFO] [02-26|19:35:12.905] Set global gas cap                       cap=50000000
+[INFO] [02-26|19:35:12.944] Opening Database                         label=chaindata path=dbdir/erigon/data/chaindata
+[INFO] [02-26|19:35:12.946] database closed                          label=chaindata
+[INFO] [02-26|19:35:12.946] Opening Database                         label=chaindata path=/home/route/el15066/erigon/dbdir/erigon/data/chaindata
+[INFO] [02-26|19:35:12.948] Initialised chain configuration          config="{ChainID: 1 Homestead: 1150000 DAO: 1920000 DAOSupport: true EIP150: 2463000 EIP155: 2675000 EIP158: 2675000 Byzantium: 4370000 Constantinople: 7280000 Petersburg: 7280000 Istanbul: 9069000, Muir Glacier: 9200000, Berlin: 12244000, London: 12965000, Engine: ethash}"
+[INFO] [02-26|19:35:12.948] Disk storage enabled for ethash DAGs     dir=dbdir/erigon/ethash count=2
+[INFO] [02-26|19:35:12.949] Initialising Ethereum protocol           network=1
+[INFO] [02-26|19:35:12.949] Effective                                prune="--prune="
+[INFO] [02-26|19:35:12.949] Starting private RPC server              on=127.0.0.1:9090
+[INFO] [02-26|19:35:14.253] Stage Headers                   (Download headers) 
+[INFO] [02-26|19:35:14.253] Stage Headers                   Done 
+[INFO] [02-26|19:35:14.253] Stage BlockHashes               (Write block hashes) 
+[INFO] [02-26|19:35:14.253] Stage BlockHashes               Done 
+[INFO] [02-26|19:35:14.253] Stage CreateHeadersSnapshot     disabled. Enable by --snapshot.layout 
+[INFO] [02-26|19:35:14.253] Stage Bodies                    (Download block bodies) 
+[INFO] [02-26|19:35:14.253] Stage Bodies                    Done 
+[INFO] [02-26|19:35:14.254] Stage CreateBodiesSnapshot      disabled. Enable by --snapshot.layout 
+[INFO] [02-26|19:35:14.254] Stage Senders                   (Recover senders from tx signatures) 
+[INFO] [02-26|19:35:14.254] Stage Senders                   Done 
+[INFO] [02-26|19:35:14.254] Stage Execution                 (Execute blocks w/o hash checks) 
+[INFO] [02-26|19:35:14.254] Globals                                  STORAGE_TRACING=false TX_DUMPING=false CODE_DUMPING=false JUMP_TRACING=false PREFETCH_BLOCKS=true BLOCK_READAHEAD=2 PREFETCH_ACCOUNTS=true PREFETCH_CODE=true USE_PREDICTORS=false USE_STORAGE_PREFETCH_FILE=false PREFETCH_WORKERS_COUNT=4 TRACE_PREDICTED=false DEBUG_TX=false DEBUG_TX_BLOCK=0 DEBUG_TX_INDEX=0 PREDICTOR_CACHE_SIZE=1024 PREDICTOR_GAS_TO_GAZ_RATE=64 PREDICTOR_RESERVE_GAZ_DIV=2 PREDICTOR_CALL_GAZ_BONUS=0 PREDICTOR_DB_PATH=dbdir/predictorDB_new
+[INFO] [02-26|19:35:14.254] [7/18 Execution] Blocks execution        from=9999999 to=10029999
+[INFO] [02-26|19:35:14.256] Started P2P networking                   version=66 self="enode://cf90152aad373d1608af933850566e82f8ad78089ffe361b9f94664a081ba07596b6dbf4b38dfdde9f4a7470414f76c803b66ad56e4920db7bb09fa445d3c458@127.0.0.1:30123?discport=0" name=erigon/v2021.08.5-alpha-8c9ccd40/linux-amd64/go1.16.14
+[INFO] [02-26|19:35:14.259] Started P2P networking                   version=65 self="enode://cf90152aad373d1608af933850566e82f8ad78089ffe361b9f94664a081ba07596b6dbf4b38dfdde9f4a7470414f76c803b66ad56e4920db7bb09fa445d3c458@127.0.0.1:30304?discport=0" name=erigon/v2021.08.5-alpha-8c9ccd40/linux-amd64/go1.16.14
+[EROR] [02-26|19:35:22.357] [7/18 Execution] Execution failed        block=10000275 hash=0xc65836c80044456ff7fb3d76723dfe65bf6e9b7876b883f7ad1fe3bbc4bcfc62 error="mismatched receipt headers for block 10000275"
+[INFO] [02-26|19:35:22.357] UnwindTo                                 block=10000274 bad_block_hash=0xc65836c80044456ff7fb3d76723dfe65bf6e9b7876b883f7ad1fe3bbc4bcfc62
+[INFO] [02-26|19:35:22.357] Prefetch thread exiting                  error=nil
+[INFO] [02-26|19:35:22.357] Prefetch thread exited 
+__TO-FROM ___AVERAGE_ns_ _______COUNT__ _____TOTAL_us_
+   1-   0          17245            276           4759
+   4-   3 N/A
+   9-   8             79            275             21
+  10-   9             30            275              8
+  11-  10             31            275              8
+  71-  70          17452         259200        4523602
+  76-  75          47042          54001        2540324
+  99-  98          18101          40675         736288
+ 100-  99          -4791          40675        -194883
+ 101- 100          27925          40675        1135886
+ 106- 105          29704          40462        1201920
+ 111- 110          10453          26775         279894
+ 131- 130        2795431            264         737993
+[INFO] [02-26|19:35:22.357] Got interrupt, shutting down... 
+[INFO] [02-26|19:35:22.360] Successfully update p2p node database    path=/home/route/el15066/erigon/dbdir/erigon/data/nodes/eth66 updated=0 deleted=1
+[INFO] [02-26|19:35:22.360] database closed                          label=sentry
+[INFO] [02-26|19:35:22.361] Successfully update p2p node database    path=/home/route/el15066/erigon/dbdir/erigon/data/nodes/eth65 updated=0 deleted=1
+[INFO] [02-26|19:35:22.361] database closed                          label=sentry
+[INFO] [02-26|19:35:22.387] database closed                          label=chaindata
