@@ -1,0 +1,64 @@
+route@cf0:~$ sudo fio --readonly --filename /media/route/p210/erigon/data/chaindata/mdbx.dat --rw=randread --bs=4K --numjobs=1 --name=t --ramp_time=10 --runtime=30 --direct=1 --percentile_list=2.5:5.0:10.0:20.0:30.0:40.0:45.0:50.0:52.5:55.0:57.5:60.0:65.0:70.0:75.0:80.0:90.0:92.5:95.0:97.5
+t: (g=0): rw=randread, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=psync, iodepth=1
+fio-3.25
+Starting 1 process
+Jobs: 1 (f=1): [r(1)][100.0%][r=20.5MiB/s][r=5257 IOPS][eta 00m:00s]
+t: (groupid=0, jobs=1): err= 0: pid=98171: Wed Mar  2 09:46:21 2022
+  read: IOPS=5103, BW=19.9MiB/s (20.9MB/s)(598MiB/30001msec)
+    clat (usec): min=85, max=3323, avg=195.50, stdev=161.13
+     lat (usec): min=85, max=3323, avg=195.53, stdev=161.13
+    clat percentiles (usec):
+     |  2.5th=[  137],  5.0th=[  139], 10.0th=[  139], 20.0th=[  141],
+     | 30.0th=[  143], 40.0th=[  143], 45.0th=[  145], 50.0th=[  145],
+     | 52.5th=[  147], 55.0th=[  153], 57.5th=[  155], 60.0th=[  157],
+     | 65.0th=[  159], 70.0th=[  161], 75.0th=[  172], 80.0th=[  178],
+     | 90.0th=[  217], 92.5th=[  363], 95.0th=[  437], 97.5th=[  889]
+   bw (  KiB/s): min=18456, max=21880, per=100.00%, avg=20418.28, stdev=724.40, samples=60
+   iops        : min= 4614, max= 5470, avg=5104.53, stdev=181.11, samples=60
+  lat (usec)   : 100=0.01%, 250=91.50%, 500=4.68%, 750=0.46%, 1000=2.55%
+  lat (msec)   : 2=0.80%, 4=0.01%
+  cpu          : usr=0.37%, sys=1.80%, ctx=153119, majf=0, minf=58
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwts: total=153118,0,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+   READ: bw=19.9MiB/s (20.9MB/s), 19.9MiB/s-19.9MiB/s (20.9MB/s-20.9MB/s), io=598MiB (627MB), run=30001-30001msec
+
+Disk stats (read/write):
+  sdc: ios=201961/0, merge=0/0, ticks=39500/0, in_queue=39500, util=99.75%
+
+
+route@cf0:~$ sudo fio --readonly --filename /media/route/p210/erigon/data/chaindata/mdbx.dat --rw=randread --bs=4K --numjobs=1 --name=t --ramp_time=10 --runtime=30 --direct=1 --percentile_list=2.5:5.0:10.0:20.0:30.0:40.0:45.0:50.0:52.5:55.0:57.5:60.0:65.0:70.0:75.0:80.0:90.0:92.5:95.0:97.5
+t: (g=0): rw=randread, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=psync, iodepth=1
+fio-3.25
+Starting 1 process
+Jobs: 1 (f=1): [r(1)][100.0%][r=20.5MiB/s][r=5237 IOPS][eta 00m:00s]
+t: (groupid=0, jobs=1): err= 0: pid=98260: Wed Mar  2 09:53:40 2022
+  read: IOPS=5113, BW=19.0MiB/s (20.9MB/s)(599MiB/30001msec)
+    clat (usec): min=87, max=1330, avg=195.12, stdev=156.66
+     lat (usec): min=87, max=1330, avg=195.15, stdev=156.66
+    clat percentiles (usec):
+     |  2.5th=[  141],  5.0th=[  141], 10.0th=[  143], 20.0th=[  143],
+     | 30.0th=[  143], 40.0th=[  145], 45.0th=[  145], 50.0th=[  147],
+     | 52.5th=[  147], 55.0th=[  157], 57.5th=[  159], 60.0th=[  159],
+     | 65.0th=[  161], 70.0th=[  161], 75.0th=[  169], 80.0th=[  178],
+     | 90.0th=[  206], 92.5th=[  363], 95.0th=[  429], 97.5th=[  889]
+   bw (  KiB/s): min=19096, max=21416, per=100.00%, avg=20458.08, stdev=508.42, samples=60
+   iops        : min= 4774, max= 5354, avg=5114.50, stdev=127.08, samples=60
+  lat (usec)   : 100=0.01%, 250=91.89%, 500=4.45%, 750=0.47%, 1000=2.44%
+  lat (msec)   : 2=0.74%
+  cpu          : usr=0.24%, sys=2.03%, ctx=153417, majf=0, minf=58
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwts: total=153416,0,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+   READ: bw=19.0MiB/s (20.9MB/s), 19.0MiB/s-19.0MiB/s (20.9MB/s-20.9MB/s), io=599MiB (628MB), run=30001-30001msec
+
+Disk stats (read/write):
+  sdc: ios=203301/0, merge=0/0, ticks=39479/0, in_queue=39479, util=99.75%

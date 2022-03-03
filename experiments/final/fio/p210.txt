@@ -1,0 +1,64 @@
+route@cf0:~$ sudo fio --readonly --filename /media/route/p210/erigon/data/chaindata/mdbx.dat --rw=randread --bs=4K --numjobs=1 --name=t --ramp_time=10 --runtime=30 --direct=1
+t: (g=0): rw=randread, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=psync, iodepth=1
+fio-3.25
+Starting 1 process
+Jobs: 1 (f=1): [r(1)][100.0%][r=20.6MiB/s][r=5279 IOPS][eta 00m:00s]
+t: (groupid=0, jobs=1): err= 0: pid=94147: Wed Mar  2 09:08:55 2022
+  read: IOPS=5275, BW=20.6MiB/s (21.6MB/s)(618MiB/30001msec)
+    clat (usec): min=87, max=1231, avg=189.11, stdev=144.72
+     lat (usec): min=87, max=1231, avg=189.15, stdev=144.72
+    clat percentiles (usec):
+     |  1.00th=[  141],  5.00th=[  141], 10.00th=[  143], 20.00th=[  143],
+     | 30.00th=[  143], 40.00th=[  145], 50.00th=[  145], 60.00th=[  159],
+     | 70.00th=[  161], 80.00th=[  178], 90.00th=[  204], 95.00th=[  424],
+     | 99.00th=[  988], 99.50th=[ 1029], 99.90th=[ 1172], 99.95th=[ 1172],
+     | 99.99th=[ 1221]
+   bw (  KiB/s): min=20064, max=22192, per=100.00%, avg=21105.47, stdev=468.26, samples=60
+   iops        : min= 5016, max= 5548, avg=5276.35, stdev=117.05, samples=60
+  lat (usec)   : 100=0.01%, 250=92.92%, 500=3.94%, 750=0.39%, 1000=2.22%
+  lat (msec)   : 2=0.52%
+  cpu          : usr=0.34%, sys=1.95%, ctx=158276, majf=0, minf=58
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwts: total=158276,0,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+   READ: bw=20.6MiB/s (21.6MB/s), 20.6MiB/s-20.6MiB/s (21.6MB/s-21.6MB/s), io=618MiB (648MB), run=30001-30001msec
+
+Disk stats (read/write):
+  sdc: ios=210089/1, merge=0/0, ticks=39484/1, in_queue=39485, util=99.75%
+
+
+route@cf0:~$ sudo fio --readonly --filename /media/route/p210/erigon/data/chaindata/mdbx.dat --rw=randread --bs=4K --numjobs=1 --name=t --ramp_time=10 --runtime=30 --direct=1
+t: (g=0): rw=randread, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=psync, iodepth=1
+fio-3.25
+Starting 1 process
+Jobs: 1 (f=1): [r(1)][100.0%][r=20.7MiB/s][r=5311 IOPS][eta 00m:00s]
+t: (groupid=0, jobs=1): err= 0: pid=94574: Wed Mar  2 09:14:45 2022
+  read: IOPS=5237, BW=20.5MiB/s (21.5MB/s)(614MiB/30001msec)
+    clat (usec): min=88, max=1233, avg=190.47, stdev=147.20
+     lat (usec): min=88, max=1233, avg=190.51, stdev=147.20
+    clat percentiles (usec):
+     |  1.00th=[  141],  5.00th=[  141], 10.00th=[  143], 20.00th=[  143],
+     | 30.00th=[  143], 40.00th=[  145], 50.00th=[  145], 60.00th=[  159],
+     | 70.00th=[  161], 80.00th=[  178], 90.00th=[  204], 95.00th=[  424],
+     | 99.00th=[  988], 99.50th=[ 1037], 99.90th=[ 1172], 99.95th=[ 1172],
+     | 99.99th=[ 1221]
+   bw (  KiB/s): min=20112, max=22024, per=100.00%, avg=20955.08, stdev=444.90, samples=60
+   iops        : min= 5028, max= 5506, avg=5238.73, stdev=111.17, samples=60
+  lat (usec)   : 100=0.01%, 250=92.67%, 500=4.06%, 750=0.44%, 1000=2.26%
+  lat (msec)   : 2=0.57%
+  cpu          : usr=0.35%, sys=1.96%, ctx=157148, majf=0, minf=58
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwts: total=157145,0,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+   READ: bw=20.5MiB/s (21.5MB/s), 20.5MiB/s-20.5MiB/s (21.5MB/s-21.5MB/s), io=614MiB (644MB), run=30001-30001msec
+
+Disk stats (read/write):
+  sdc: ios=208901/0, merge=0/0, ticks=39471/0, in_queue=39470, util=99.76%

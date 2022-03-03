@@ -1,0 +1,31 @@
+route@cf0:~$ sudo fio --readonly --filename /media/route/sx8200/erigon/data/chaindata/mdbx.dat --rw=randread --bs=4K --numjobs=1 --name=t --ramp_time=10 --runtime=30 --direct=1 --percentile_list=1.0:2.5:5.0:10.0:20.0:30.0:40.0:50.0:55.0:60.0:62.5:65.0:67.5:70.0:75.0:80.0:90.0:95.0:97.5:99.5
+t: (g=0): rw=randread, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=psync, iodepth=1
+fio-3.25
+Starting 1 process
+Jobs: 1 (f=1): [r(1)][100.0%][r=51.5MiB/s][r=13.2k IOPS][eta 00m:00s]
+t: (groupid=0, jobs=1): err= 0: pid=98203: Wed Mar  2 09:50:30 2022
+  read: IOPS=13.2k, BW=51.5MiB/s (53.0MB/s)(1545MiB/30001msec)
+    clat (nsec): min=590, max=194500, avg=75441.05, stdev=9182.61
+     lat (nsec): min=620, max=194540, avg=75475.97, stdev=9182.61
+    clat percentiles (nsec):
+     |  1.0th=[46848],  2.5th=[58112],  5.0th=[70144], 10.0th=[70144],
+     | 20.0th=[70144], 30.0th=[70144], 40.0th=[71168], 50.0th=[71168],
+     | 55.0th=[71168], 60.0th=[72192], 62.5th=[72192], 65.0th=[72192],
+     | 67.5th=[78336], 70.0th=[86528], 75.0th=[86528], 80.0th=[86528],
+     | 90.0th=[86528], 95.0th=[87552], 97.5th=[88576], 99.5th=[88576]
+   bw (  KiB/s): min=52520, max=52936, per=100.00%, avg=52744.23, stdev=85.50, samples=60
+   iops        : min=13130, max=13234, avg=13186.03, stdev=21.37, samples=60
+  lat (nsec)   : 750=0.01%, 1000=0.03%
+  lat (usec)   : 2=0.16%, 50=1.57%, 100=98.23%, 250=0.01%
+  cpu          : usr=0.86%, sys=3.73%, ctx=394793, majf=0, minf=58
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwts: total=395507,0,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+   READ: bw=51.5MiB/s (53.0MB/s), 51.5MiB/s-51.5MiB/s (53.0MB/s-53.0MB/s), io=1545MiB (1620MB), run=30001-30001msec
+
+Disk stats (read/write):
+  nvme1n1: ios=526451/0, merge=0/0, ticks=38708/0, in_queue=38709, util=99.77%
