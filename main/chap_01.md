@@ -1,32 +1,23 @@
 
 # Κεφ 1: Εισαγωγή
-<!-- 
-Ever since the introduction of Bitcoin in 2008 with the iconic paper "Bitcoin: A Peer-to-Peer Electronic Cash System" [ BITCOIN ],
-the interest in cryptocurrency-based projects has been increasing with rapid pace.
-Arguably the most ?? of such projects is the Ethereum blockchain [ YP ] with its key feature being the
-ability to execute small programs known as Smart Contracts with the same security guarantees as regular
-value-trnasfer transactions. This specific feature has been the driving factor behind its massive
-rise in popularity and transaction volume. However, as evidenced in the years leading up to the time of this publication,
-it still strugles to meet the demand for higher throughput, leading transaction fees to skyrocket.
-The system's throughput is capped in order to allow for all participants to stay in sync with the network.
-While existing nodes have no issue coping with the current requirements, new nodes that are brought up in the network
-need to first synchronise up to the most recent block, by executing all of the transactions of the entire blockchain,
-a very time consuming process that slows down reasearch on blockchain data.
- -->
-Από την εισαγωγή του Bitcoin το 2008 με το εμβληματικό ? paper ? "Bitcoin: A Peer-to-Peer Electronic Cash System" [ BITCOIN ],
-το ενδιαφέρον για συστήματα κρυπτονομισμάτων έχει αυξηθεί με ταχύτατο ρυθμό. Αναμφισβήτητα από το πιο δημοφιλή τέτοια έργα είναι το Ethereum blockchain [ YP ] με βασικό χαρακτηριστικό του τη δυνατότητα εκτέλεσης σύντομων προγραμμάτων γνωστών ως Έξυπνα Συμβόλαια (Smart Contracts), προσφέροντας τις ίδιες εγγυήσεις ασφαλείας με της απλές συναλλαγές μεταφοράς αξίας (value-transfer transactions). Αυτό ακριβώς το χαρακτηριστικό ήταν ο κινητήριος παράγοντας πίσω από την τεράστια αύξηση της δημοτικότητάς του, όπως και του όγκου των συναλλαγών [ TXCHART ]. Ωστόσο, όπως αποδεικνύεται στα χρόνια που προηγήθηκαν της παρούσας εργασίας, εξακολουθεί να αγωνίζεται για να καλύψει τη ζήτηση για υψηλότερη απόδοση (thoughput), με αποτέλεσμα οι προμήθειες συναλλαγών να είναι πολλή υψηλές [ TXFEES ].
 
-Η απόδοση του συστήματος είναι περιορισμένη ώστε να επιτρέπεται σε όλους τους συμμετέχοντες να παραμένουν συγχρονισμένοι με το δίκτυο. Ενώ οι υπάρχοντες κόμβοι δεν έχουν κανένα πρόβλημα με τις τρέχουσες απαιτήσεις, νέοι κόμβοι που εισάγονται στο δίκτυο πρέπει πρώτα να συγχρονιστούν μέχρι το πιο πρόσφατο block, εκτελώντας όλες τις συναλλαγές ολόκληρου του blockchain,
-μια χρονοβόρα διαδικασία που επιβραδύνει την έρευνα και ανάπτυξη πάνω στο blockchain του.
+Test 1 [@goossens93] Test 2 [@goossens93 @greekbook].
+Από την εισαγωγή του Bitcoin το 2008 με την εμβληματική δημοσίευση "Bitcoin: A Peer-to-Peer Electronic Cash System" [@BITCOIN],
+το ενδιαφέρον για συστήματα κρυπτονομισμάτων έχει αυξηθεί με ταχύτατο ρυθμό.
+Αναμφισβήτητα από το πιο δημοφιλή τέτοια έργα είναι το Ethereum blockchain [@YP] με βασικό χαρακτηριστικό του τη δυνατότητα εκτέλεσης σύντομων προγραμμάτων γνωστών ως Έξυπνα Συμβόλαια (Smart Contracts), προσφέροντας τις ίδιες εγγυήσεις ασφαλείας με της απλές συναλλαγές μεταφοράς αξίας (value-transfer transactions).
+Αυτό ακριβώς το χαρακτηριστικό ήταν ο κινητήριος παράγοντας πίσω από την τεράστια αύξηση της δημοτικότητάς του, όπως και του όγκου των συναλλαγών [@TXCHART]. Ωστόσο, όπως αποδεικνύεται στα χρόνια που προηγήθηκαν της παρούσας εργασίας, εξακολουθεί να αγωνίζεται για να καλύψει τη ζήτηση για υψηλότερη απόδοση (thoughput), με αποτέλεσμα οι προμήθειες συναλλαγών να είναι πολλή υψηλές [@TXFEES].
+
+Η απόδοση του συστήματος είναι περιορισμένη ώστε να επιτρέπεται σε όλους τους συμμετέχοντες να παραμένουν συγχρονισμένοι με το δίκτυο.
+Ενώ οι υπάρχοντες κόμβοι δεν έχουν κανένα πρόβλημα με τις τρέχουσες απαιτήσεις, νέοι (πλήρεις) κόμβοι που εισάγονται στο δίκτυο πρέπει πρώτα να συγχρονιστούν μέχρι το πιο πρόσφατο block, εκτελώντας τις συναλλαγές ολόκληρου του blockchain από το πρώτο block, μια χρονοβόρα διαδικασία που επιβραδύνει την έρευνα και ανάπτυξη πάνω στο blockchain του.
 
 ## Κίνητρο και συναφείς προσεγγίσεις
 
-Το επίσημο λογισμικό (client) για το δίκτυο του Ethereum, το go-ethereum ή geth, ακολουθεί πιστά την επίσημη περιγραφή του [YP] δίνοντας έμφαση σε ορθότητα και feature richness [CITATION] με αποτέλεσμα να έχει μεγάλες απαιτήσεις σε χωρητικότητα και ταχύτητα αποθηκευτικού μέσου (storage capacity and I/O). Για παράδειγμα, είναι πια αδύνατη η εκτέλεσή του με σκληρό δίσκο [ https://geth.ethereum.org/docs/faq ] λόγω της χαμηλής ταχύτητάς τους σε τυχαίες προσβάσεις (random I/O).
-Διάφορες εργασίες [ RAINBLOCK, ERIGON ] έχουν προσπαθήσει και επιτύχει σε μεγάλο βαθμό να βελτιώσουν την απόδοσή του,
+Το επίσημο λογισμικό (client) για το δίκτυο του Ethereum, το **Go-ethereum** ή **geth** [@GETH], ακολουθεί πιστά την επίσημη περιγραφή του [@YP] δίνοντας έμφαση σε ορθότητα και feature richness [@CITATION] με αποτέλεσμα να έχει μεγάλες απαιτήσεις σε χωρητικότητα και ταχύτητα αποθηκευτικού μέσου (storage capacity και I/O). Για παράδειγμα, είναι πια αδύνατη η εκτέλεσή του με σκληρό δίσκο [@FAQ] λόγω της χαμηλής ταχύτητάς τους σε τυχαίες προσβάσεις (random I/O).
+Διάφορες εργασίες [@RAINBLOCK, @ERIGON] έχουν προσπαθήσει και επιτύχει σε μεγάλο βαθμό να βελτιώσουν την απόδοσή του,
 χρησιμοποιώντας διαφορετικές δομές δεδομένων για πιο αποδοτική αποθήκευση των δεδομένων του.
-Επίσης, έχει εξεταστεί η δυνατότητα παραλληλοποίησης της εκτέλεσή του τόσο με μεθόδους αισιόδοξης ταυτόχρονης εκτέλεσης (optimistic concurrent execution) [ ESSCE, EFOCESC, ACSC ] όσο και με ντετερμινιστικό τρόπο, υποθέτωντας επιπλέον γνώση των συγκρούσεων (conflicts) μεταξύ των transaction [ OTPE, EFOCESC, ACSC ].
-Άλλες προσπάθειες επικεντρώνονται στην επιτάχυνση ? από πλευράς επεξεργαστή ? (cpu-wise) με τη συγγραφή client σε άλλη γλώσσα από την Go, όπως σε Rust [ PARITY, +??? ] ή C++ [ SILKWORM, +??? ].
-Τέλος, έχει δοθεί και λίγη έμφαση στην εφαρμογή προανάκτησης (prefetching) με προ-εκτέλεση (pre-execution) των Smart Contracts [ RAINBLOCK, GETH_PREFETCH ], χωρίς όμως ξεχωριστή μελέτη της συγκεκριμένης μεθόδου.
+Επίσης, έχει εξεταστεί η δυνατότητα παραλληλοποίησης της εκτέλεσή του τόσο με μεθόδους αισιόδοξης ταυτόχρονης εκτέλεσης (optimistic concurrent execution) [@ESSCE, @EFOCESC, @ACSC] όσο και με ντετερμινιστικό τρόπο, υποθέτωντας επιπλέον γνώση των συγκρούσεων (conflicts) μεταξύ των transaction [@OTPE, @EFOCESC, @ACSC]. Στην τελευταία περίπτωση προτείνονται κάποιες επεκτάσεις και αλλαγές στο πρωτόκολλο του Ethereum για να υποστηρίζονται αυτές οι μέθοδοι.
+Άλλες προσπάθειες επικεντρώνονται στην επιτάχυνση από πλευράς ? χρόνου επεξεργαστή ? (cpu-time) με τη συγγραφή client σε άλλη γλώσσα από την Go, όπως σε Rust [@PARITY, ? ΆΛΛΕΣ ?] ή C++ [@SILKWORM, ? ΆΛΛΕΣ ?].
+Τέλος, έχει δοθεί και λίγη έμφαση στην εφαρμογή προανάκτησης (prefetching) με προ-εκτέλεση (pre-execution) των Smart Contracts [@RAINBLOCK, @GETHPREFETCH], χωρίς όμως ξεχωριστή μελέτη της συγκεκριμένης μεθόδου.
 
 Αξίζει να αναφερθεί και η σταδιακή εισαγωγή της νέας έκδοσης του Ethereum, το Ethereum 2.0, το οποίο επιδιώκει
 μεγάλες βελτιώσεις στην ταχύτητα του συνολικού δικτύου, κάνοντας σημαντικές αλλαγές στην αρχιτεκτονική του,
@@ -34,11 +25,12 @@ a very time consuming process that slows down reasearch on blockchain data.
 
 ## Αντικείμενο της διπλωματικής
 
-Η διπλωματική αυτή εκτελείται με την τελευταία αυτή μέθοδο, της προανάκτησης, υλοποιημένη στον Erigon client [ERIGON],
-υλοποιώντας ένα ? novel ? σύστημα ανάλυσης του κώδικα των contracts και σύνθεση απλούστερου με αποκλειστικό σκοπό την εκτέλεσή του για προανάκτηση.
+Η διπλωματική αυτή εκτελείται με την τελευταία αυτή μέθοδο, της προανάκτησης, βασιζμένη στον Erigon client [@ERIGON],
+υλοποιώντας ένα νέο σύστημα ανάλυσης του κώδικα των contracts και σύνθεση απλούστερου με αποκλειστικό σκοπό την εκτέλεσή του για προανάκτηση.
+Η μέθοδος αυτή δεν απαιτεί αλλαγές στην επικοινωνία μεταξύ των συμμετεχόντων, ή στον ορισμό (specification) του Ethereum [@YP] του
+και επομένως μπορεί να υποστηρίζεται από καθένα client ξεχωριστά.
 
-![](Overview.svg)
-Υψηλού επιπέδου όψη του συστήματος που θα αναλυθεί αργότερα
+![](Overview.svg "Υψηλού επιπέδου όψη του συστήματος, όπως θα αναλυθεί στο κεφάλαιο 4.")
 
 ## Οργάνωση του κειμένου
 
@@ -48,7 +40,7 @@ a very time consuming process that slows down reasearch on blockchain data.
 - Στο Κεφάλαιο 2 θα γίνει μια γενική επεξήγηση των συστημάτων αλυσήδων κοινοποιήσεων (blockchain).
 
 - Στο Κεφάλαιο 3 αναλύεται η αρχιτεκτονική και υλοποιήσεις λογισμικού για Ethereum,
-εξετάζοντας τους 2 πιο δημοφιλείς clients [https://ethernodes.org/], τον Go-ethereum και τον Erigon.
+εξετάζοντας τους 2 πιο δημοφιλείς clients [@ETHERNODES], τον Go-ethereum και τον Erigon.
 Δίνεται περισσότερη έμφαση στο επίπεδο αποθήκευσης και των δομών δεδομένων τους.
 
 - Στο Κεφάλαιο 4 περιγράφεται από ένα υψηλό επίπεδο η αρχιτεκτονική του συστήματος προανάκτησης.
@@ -66,7 +58,10 @@ a very time consuming process that slows down reasearch on blockchain data.
 - Στο Κεφάλαιο 8 συνοψίζονται τα αποτελέσματα και παραθέτονται κάποια βασικά συμπεράσματα. Γίνεται επίσης
 αναφορά και στις δυνατότητες που δημιουργούνται για επεκτάσεις και μελλοντική έρευνα πάνω στο θέμα.
 
+[ ETHERNODES ] https://ethernodes.org/
 
 [ BITCOIN ] https://bitcoin.org/bitcoin.pdf
 
 [ TXFEES ] https://bitinfocharts.com/comparison/ethereum-transactionfees.html#3y
+
+[ FAQ ] https://geth.ethereum.org/docs/faq
