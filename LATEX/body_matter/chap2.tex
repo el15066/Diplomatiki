@@ -1,0 +1,253 @@
+\markdownInput{../pmd/chap_02.md.md}
+
+% \chapter{Θεωρητικό υπόβαθρο}
+
+% \InitialCharacter{Τ}\en{odo}.
+
+% \section{Αλυσίδες κοινοποιήσεων (\en{blockchain})}
+% \subsection{Τι είναι τα συστήματα ομότιμων κόμβων}
+% Στα μεγάλα κατανεμημένα συστήματα \indexGR{K@κατανεμημένα συστήματα} όπως είναι ο Παγκόσμιος Ιστός, γίνονται εμφανή τα προβλήματα του παραδοσιακού μοντέλου πελάτη/εξυπηρετητή: Οι πηγές πληροφορίας βρίσκονται μαζεμένες σε
+% λίγους κόμβους (εξυπηρετητές) στους οποίους συνδέονται πάρα πολλοί
+% πελάτες \cite{elli05}.
+
+% Οι αρχές που διέπουν τα συστήματα ομότιμων κόμβων είναι οι εξής:
+% \begin{itemize}
+% \item Η αρχή του μοιράσματος των πόρων.
+% \item Η αρχή της αυτοοργάνωσης.
+% \end{itemize}
+
+
+
+
+
+
+% \section{Αρχιτεκτονική και υλοποιήσεις για Ethereum} %  λογισμικού (clients)
+
+
+% \section{Δομή Ethereum}
+
+% \subsection{World state}
+
+% TODO: για τα contracts διαφορά address με code hash
+% (χειρόγραφο)
+
+% \subsection{Λογαριασμού (Accounts) και Συμβόλαια (Contracts)}
+
+% Στο Ethereum
+
+% - Accounts
+% - Contracts
+% - Contract storage
+
+% \subsection{Transaction}
+% - transaction
+% - to contracts
+% - message calls (contract to contract)
+
+
+% \subsection{Blockchain}
+% - txs into blocks
+% - mining
+% - blocktree, uncles
+% - consensus -> blockchain
+
+% \section{Δομές δεδομένων}
+
+% \subsection{Block}
+
+% - body
+% % [geth] core/types/block.go:159, == [erigon] core/types/block.go:614
+% - header
+% % [geth] core/types/block.go:68, == [erigon] core/types/block.go:72
+
+% \subsection{State}
+
+% \subsubsection{Go-ethereum}
+% - mMPT
+% - state trie (αγνοούμε τα transaction και receipt trie)
+
+% \paragraph{Υλοποίηση}
+
+% Η \lstinline{stateDB} περιέχει τα \lstinline{stateObjects}.
+% Τα \lstinline{stateObject} αντιστοιχούν 1 προς 1 σε \lstinline{Account} τα οποία περιγράφουν.
+% % [geth] core/state/statedb.go:59-
+
+% Δημιουγούνται διαβάζοντας το αντίστοιχο \lstinline{Account} από τη \lstinline{stateDB}
+% % [geth] core/state/statedb.go:489-559
+
+% Εδώ εφαρμόζεται ένα επίπεδο in-memory\footnote{Το επίπεδο αυτό μπορεί να αποθηκευτεί κατά το κλείσιμο του client και στον δίσκο, ώστε να διαβαστεί κατά την εκκίνηση μελλοντικής εκτέλεσης και να μην χρειαστεί να ξανα-δημιουργηθεί.} read-write cache που ονομάζεται (στον κώδικα) \lstinline{snapshot}.
+% Έχει πολλαπλά layers τα οποία περιέχουν \lstinline{Accounts} και \lstinline{Storage} που έχουν ήδη διαβαστεί ή τροποποιηθεί κατά την εκτέλεση.
+% Η αναζήτηση γίνεται περώντας από τα επίπεδα με τη σειρά, μέχρι να βρεθεί το κλειδί (διεύθυνση \lstinline{Account} ή \lstinline{Storage}) που αναζητήται.
+% Αν δεν βρεθεί σε κανένα επίπεδο γίνεται ανάκτηση από το \lstinline{Trie}.
+% Λόγο του μεταβλητού και εν δυνάμει μεγάλου πλήθους των layers που πρέπει να εξεταστούν για ένα κλειδί που δεν υπάρχει στο \lstinline{snapshot},
+% διατηρείται ένα φίλτρο (filter) Bloom, το οποίο αποφαίνεται για την πιθανή\footnote{
+% Σε περίπτωση που το κλειδί υπάρχει, η απάντηση είναι βέβαιη, ενώ σε περίπτωση που δεν υπάρχει, μπορεί να δοθεί ψευδώς θετική απάντηση ότι υπάρχει.
+% Αυτή η συμπεριφορά του φίλτρου δεν επιρρεάζει την ορθότητα των αποτελεσμάτων.
+% } ύπαρξη ή όχι του κλειδιού σε οποιοδήποτε layer πριν ξεκινήση η αναζήτηση.
+% Έτσι, αρκετές άσκοπες αναζητήσεις παρακάμπτωνται.
+
+% Υλοποίηση αναζήτησης (παράδειγμα για \lstinline{Account}):
+% % [geth] state/snapshot/difflayer.go:270-350
+
+% Αν αποτύχει:
+% % [geth] core/rawdb/accessors_snapshot.go:75-79
+
+% Σε περίπτωση που το \lstinline{snapshot} δεν υπάρχει (πχ δεν έχει δημιουργηθεί ακόμα) ή δεν περιέχει το κλειδί που ζητήται,
+% η ανάκτηση γίνεται από το αντίστοιχο \lstinline{state Trie}:
+% % [geth] trie/trie.go:113-158
+
+% Η αναζήτηση αυτή πιθανών να προκαλέσει μία ή και παραπάνω αναγνώσεις απ'το δίσκο, με τη διαδικασία αναζήτησης που περιγράψαμε προηγουμένως.
+% Η υλοποίση φαίνεται παρακάτω:
+% % [geth] trie/trie.go:499-505
+% % [geth] trie/database.go:370-404
+% % [geth] ethdb/leveldb.go:22,33,61,63,187-194
+
+% Τα \lstinline{stateObject} ανακτούν δεδομένα \lstinline{Storage} με τον ίδιο τρόπο:
+% % [geth] core/state/state_object.go:179-265, hil 237,250
+
+% Οι ανακτήσεις δεδομένων \lstinline{Storage} προκαλούνται από εντολές SLOAD/SSTORE κατά την εκτέλεση κάποιου \lstinline{Smart Contract}:
+% % [geth] core/vm/instructions.go:516-531
+
+% Επιπλέον ανακτήσεις, αυτή τη φορά για \lstinline{Accounts}, γίνονται κατά την εκτέλεση των transaction καθώς και την ολοκλήρωση της επεξεργασίας ενός \lstinline{Block}:
+% % [geth] core/state_processor.go:59,76,88-93, hil 90
+% % [geth] consensus/ethash/consensus.go:587-593, hil 592
+% % [geth] core/state/statedb.go:823-879, hil 862,864
+% % [geth] core/state/statedb.go:450-451,459,463, hil 463
+
+% Τέλος, η εγγραφή όλων των τροποποιήσεων στη βάση στο δίσκο γίνεται αργότερα, με κλήση στο \lstinline{Trie}:
+% % [geth] trie/trie.go:517,527,547
+
+
+% \subsubsection{Erigon}
+% - plainstate
+% - mutation
+% - mdbx
+% - hash later
+
+% \paragraph{Υλοποίηση}
+
+% Η οργάνωση της \lstinline{State Database} του \lstinline{Erigon} μοιάζει με αυτή του \lstinline{Go-ethereum}, με αρκετές όμως συμαντικές διαφορές.
+% Βλέπουμε και εδώ τα \lstinline{stateObjects} τα οποία όμως περιέχονται στη δομή \lstinline{IntraBlockState}, η οποία επίσης λειτουργεί ως read-write cache.
+% Όπως φαίνεται και απ'το όνομά της, έχει ? SCOPE ? εντός ενός block, με την ένοια ότι
+% οι τροποποιήσεις κρατώνται στη δομή αυτή μόνο για τη διάρκεια ενός block.
+% Θα δούμε αργότερα τι γίνεται κατά την ολοκλήρωση του block.
+
+% Δομή \lstinline{IntraBlockState}:
+% % [erigon] core/state/intra_block_state.go:50-85
+
+% Η δημιουργεία του \lstinline{stateObject} γίνεται πάλι με ανάκτηση του αντίστοιχου \lstinline{Account}:
+% % [erigon] core/state/intra_block_state.go:553-554,557,559,560,569, hil 569
+
+% Η διαφορά γίνεται εμφανής στην ανάγνωση του \lstinline{Account} μιας και εδώ δεν υπάρχει δομή \lstinline{Trie}:
+% % [erigon] core/state/plain_state_reader.go:70,73
+
+% Έτσι φτάνουμε στο επίπεδο της write-back write-cache που ονομάζεται (στον κώδικα) \lstinline{mutation}.
+% Αξίζει να σημειωθεί ότι οι αναγνώσεις πρέπει επίσης να κοιτάξουν τη write-cache μιας και μπορεί να έχει γίνει τροποποίηση που δεν έχει αποτυπωθεί ακόμα στην κύρια βάση.
+
+% % [original_erigon] ethdb/olddb/mutation.go:126-135, 186-191, hil 127, 135, 191
+% % [original_erigon] ethdb/olddb/mutation.go:75-80
+% % [original_erigon] ethdb/olddb/mutation.go:3,13,20-22
+% % [erigon_lib]      kv/mdbx/kv_mdbx.go:872-879
+
+% Τα \lstinline{stateObject} ανακτούν δεδομένα \lstinline{Storage} με τον ίδιο τρόπο:
+% % [erigon] core/state/state_object.go:159-160,162,174, hil 174
+% % [erigon] core/state/state_object.go:184,186,188,211
+% % [erigon] core/state/plain_state_reader.go:103,108
+
+% Όπως είδαμε και προηγουμένως, οι ανακτήσεις δεδομένων \lstinline{Storage} προκαλούνται από εντολές SLOAD/SSTORE:
+% % [erigon] core/vm/instructions.go:544-562 (remove debug)
+
+% Επίσης, οι ανακτήσεις για \lstinline{Accounts}, που γίνονται κατά την ολοκλήρωση της επεξεργασίας ενός \lstinline{Block}:
+% % [erigon] core/blockchain.go:90,123,159,178, hil 178
+% % [erigon] core/blockchain.go:248,275,287
+% % [erigon] core/state/intra_block_state.go:287-289
+% % [erigon] core/state/plain_state_writer.go:125,127
+
+% Εδώ, που πρόκειται να γίνει η οριστικοποίηση του \lstinline{Block}, πρέπει να γίνουν κάποιες εγγραφές.
+% Οι εγγραφές αυτές θα καταλήξουν στη write-cache (\lstinline{mutation}) αλλά, μιας και δεν έχουμε τη δομή \lstinline{MPT} (όπως στο \lstinline{go-ethereum}), η διαδικασία διαφέρει αρκετά.
+% Η δομή \lstinline{MPT} από μόνη της έχει την ιδιότητα ότι οι εγγραφές δεν πανω-γράφουν (overwrite) τις παλιές τιμές, αλλά,
+% χάρη στην συνάρτηση κατακερματισμού\footnote{Τροποποιημένα δεδομένα δίνουν τελείως διαφορετικό αποτέλεσμα κατακερματισμού (\lstinline{hash}) το οποίο χρησιμοποιήται ως νέα διεύθυνση, η οποία είναι άδεια (αγνοώντας συγκρούσεις κατακερματισμού).}, παράγεται νέα (κενή) διεύθυνση στην οποία αποθηκεύονται.
+% Αυτό δίνει τη δυνατότητα ιστορικής αναδρομής σε προηγούμενες καταστάσεις (\lstinline{historic states}), απλά αλλάζοντας το \lstinline{root hash}.
+% Χωρίς το \lstinline{MPT}, για να έχει ο \lstinline{Erigon} την ίδια δυνατότητα, κρατάει πίνακες στη βάση με τις τροποποιήσεις που έχουν γίνει (\lstinline{change-set}).
+
+% Η ενεργοποίηση είναι προεραιτική και γίνεται στην αρχή της εκτέλεσης:
+% % [erigon] eth/stagedsync/stage_execute.go:200,228-232
+
+% Αν ενεργοποιηθεί, οι εγγραφές γίνονται με τον \lstinline{change_set_writer}:
+% % [erigon] core/state/change_set_writer:119,120,124,125,133,140,141
+
+% Η συνάρτηση \lstinline{Encode()} κάνει απλή μετάφραση και ταξινόμηση:
+% % [erigon] common/changeset/account_changeset.go:23-35
+% (υπάρχει και αντίστοιχη για \lstinline{Storage})
+
+% Η συνάρτηση \lstinline{AppendDup()} είναι ισοδύναμη με την \lstinline{Put()} στο \lstinline{mutation} που είδαμε προηγουμένως.
+% % [original_erigon] ethdb/olddb/mutation.go:204-206
+
+% \section{EVM}
+
+% \subsection{Μοντέλο εκτέλεσης transaction}
+
+% μοντέλο εισόδου-εξόδου, μνημών, εξαιρέσεων
+% μοντέλο επεξεργασίας, αρχιτεκτονική στοίβας
+
+% \subsection{Προγραμματισμός SC σε υψηλό επίπεδο - Solidity}
+
+% βασικά για solidity lang
+% έξοδος του compiler (creation, runtime)
+% δομή του runtime εκτελέσιμου
+% - dispatch - μέθοδοι και κλήσεις
+% - 'τακτοποίηση' δεδομένων σε μόνιμη μνήμη του contract
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% % \src{
+% % \begin{example}
+%   % \caption{Κάποιος αλγόριθμος ...}
+%   % \lstset{language=C}
+% % \begin{lstlisting}
+% \begin{lstlisting}[language=go]
+% hello(hello, bb uint64)
+% world(aa int)
+% for 1 := range aa {
+%     do {
+%         break;
+%     }
+% }
+% \end{lstlisting}
+% % \end{example}
+% % }
