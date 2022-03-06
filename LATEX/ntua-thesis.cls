@@ -50,6 +50,8 @@
 \usepackage[hyphens]{url}
 \usepackage{relsize} % used for font scaling
 \usepackage[fencedCode,hybrid,citations,inlineFootnotes]{markdown}
+\usepackage{svg}
+\usepackage{placeins}
 
 \pagestyle{fancy}
 
