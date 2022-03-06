@@ -997,7 +997,7 @@
 }
 %
 \renewcommand{\chaptermark}[1]{
-    \markboth{\mbox{\selectlanguage{greek}\@chapapp}\ \thechapter.\ \ #1}{}
+    \markboth{\mbox{Κεφάλαιο}\ \thechapter.\ \ #1}{}
 %        \markboth{\mbox{\@chapapp}\ \thechapter.\ \ #1}{}
 }
 \renewcommand{\sectionmark}[1]{
@@ -1482,7 +1482,7 @@
 			{\chapter} % command
 			[display] % shape
 			{\bfseries\color{\titlefillcolor}} % format
-			{\Large{\chaptertitlename} \hspace{3pt}%
+			{\Large{Κεφάλαιο} \hspace{3pt}%
             		\colorbox{\titlefillcolor}{%
             		\chapternumberfontsize{\textcolor{white}{\thechapter}}}% 
                 \\[12pt]
