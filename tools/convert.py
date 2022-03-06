@@ -61,7 +61,7 @@ def parse_footnotes(raw):
             line = lines[i]
             res  = ''
             while line:
-                if '^' in line:
+                if ' ^' in line:
                     a,  _, bc = line.partition(' ^')
                     bsc       = re.split(r'([^0-9])', bc, maxsplit=1)
                     if len(bsc) == 1: bsc.extend(['', ''])
@@ -115,7 +115,8 @@ def not_in_code(a):
                             res.append('//...\n')
                         res.extend(fls[l0-1:l1])
                 #
-                lines[i] = '```go\n' + ''.join(res) + '```\n' # + '*(απόσπασμα από `' + PRETTY[repo] + src + '`)*\n'
+                # lines[i] = '```go\n' + ''.join(res) + '```\n' # + '*(απόσπασμα από `' + PRETTY[repo] + src + '`)*\n'
+                lines[i] = '```go\n' + PRETTY[repo] + src + ':' + lns + '\n```\n'
         except:
             print(line, file=sys.stderr)
             raise
@@ -141,6 +142,7 @@ def main(fname):
         a = re.sub(r'\n\[ .*', '', a) # remove refs
         #
         a = parse_footnotes(a) # global
+        a = a.replace('\\^', '^')
         a = code_sensitive(a, notInCode=not_in_code)
         #
         # a = re.sub(r'!\[\]\((\S*\.svg) "([^"]*)"\)', SVG_REPL, a)

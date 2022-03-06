@@ -1,5 +1,5 @@
 
-# Κεφ 5: Αναλυτική περιγραφή του συστήματος
+# Αναλυτική περιγραφή του συστήματος
 
 Στο κεφάλαιο αυτό περιγράφεται λεπτομερώς το σύστημα που υλοποιήθηκε, όπως και η λογική και υποθέσεις στις οποίες βασίστηκαν οι επιλογές που έγιναν κατά τη σχεδίαση.
 
@@ -240,33 +240,33 @@ type BlockTable map[uint16]BlockTableEntry
 
 Η τελική ενέργεια αυτού του σταδίου είναι η σειριοποίηση (serialization) και κωδικοποίηση (encoding) σε διυαδική μορφή του predictor μαζί με το block table, για να αποθηκευτεί στη βάση δεδομένων.
 
-```
+```go
 # Kyber: Reserve
-INFO    envon.cli                            cli.py:42   | Analyzing code/h_1527....runbin.hex
-INFO    envon.cli                            cli.py:43   | Output is code/h_1527....evmlike
-INFO    envon.cli                            cli.py:44   | Skip is enabled
-INFO    envon.cli                            cli.py:49   | Using known jump edge file ../jump_edges.json
-WARNING envon.cli                            cli.py:71   | Code hash h_1527... not found in jump edges file
-INFO    envon.cli                            cli.py:77   | Will pick SLOAD,SSTORE,CALL,CALLCODE,DELEGATECALL,STATICCALL,RETURN
-INFO    envon.assembly.disassemble   disassemble.py:41   | At byte 8277 ValueError('Bad opcode 238')
-INFO    envon.analysis.optimize         optimize.py:111  | Running optimizer for up to 26554 ms, around 265540 updates
-INFO    envon.analysis.optimize         optimize.py:141  | Reached 0 updates
-INFO    envon.analysis.optimize         optimize.py:195  | Optimizer complete after 15079 updates
+INFO    cli                   | Analyzing code/h_1527....runbin.hex
+INFO    cli                   | Output is code/h_1527....evmlike
+INFO    cli                   | Skip is enabled
+INFO    cli                   | Using known jump edge file ../jump_edges.json
+WARNING cli                   | Code hash h_1527... not found in jump edges file
+INFO    cli                   | Will pick SLOAD,SSTORE,CALL,CALLCODE,DELEGATECALL,STATICCALL,RETURN
+INFO    assembly.disassemble  | At byte 8277 ValueError('Bad opcode 238')
+INFO    analysis.optimize     | Running optimizer for up to 26554 ms, around 265540 updates
+INFO    analysis.optimize     | Reached 0 updates
+INFO    analysis.optimize     | Optimizer complete after 15079 updates
 
 real    0m0.213s
 user    0m0.210s
 sys     0m0.004s
 
 # ENS: Base Registrar Implementation
-INFO    envon.cli                            cli.py:42   | Analyzing code/h_1555.runbin.hex
-INFO    envon.cli                            cli.py:43   | Output is code/h_1555.evmlike
-INFO    envon.cli                            cli.py:44   | Skip is enabled
-INFO    envon.cli                            cli.py:49   | Using known jump edge file ../jump_edges.json
-INFO    envon.cli                            cli.py:77   | Will pick SLOAD,SSTORE,CALL,CALLCODE,DELEGATECALL,STATICCALL,RETURN
-INFO    envon.assembly.disassemble   disassemble.py:41   | At byte 10360 ValueError('Bad opcode 44')
-INFO    envon.analysis.optimize         optimize.py:111  | Running optimizer for up to 30720 ms, around 307200 updates
-INFO    envon.analysis.optimize         optimize.py:141  | Reached 0 updates
-INFO    envon.analysis.optimize         optimize.py:195  | Optimizer complete after 624 updates
+INFO    cli                   | Analyzing code/h_1555.runbin.hex
+INFO    cli                   | Output is code/h_1555.evmlike
+INFO    cli                   | Skip is enabled
+INFO    cli                   | Using known jump edge file ../jump_edges.json
+INFO    cli                   | Will pick SLOAD,SSTORE,CALL,CALLCODE,DELEGATECALL,STATICCALL,RETURN
+INFO    assembly.disassemble  | At byte 10360 ValueError('Bad opcode 44')
+INFO    analysis.optimize     | Running optimizer for up to 30720 ms, around 307200 updates
+INFO    analysis.optimize     | Reached 0 updates
+INFO    analysis.optimize     | Optimizer complete after 624 updates
 
 real    0m0.065s
 user    0m0.062s
@@ -307,8 +307,7 @@ sys     0m0.004s
 
 Όπως και στην αρχική έκδοση (δηλαδή χωρίς τις τροποποιήσεις) του *erigon*, υπάρχει ένα κύριο νήμα (*main thread*),
 το οποίο εκτελεί σειριακά τα transaction που περιέχονται στα block προς εκτέλεση.
-Το νήμα αυτό έχει μία τοπική (*thread local*) cache για αναγνώσεις και εγγραφές (read-write), τύπου *IntraBlockState* η οποία κρατά εσωτερικά τις εγγραφές (write-back) μέχρι
-το τέλος του block (όπως περιγράφηκε σε προηγούμενο κεφάλαιο).
+Το νήμα αυτό έχει μία τοπική (*thread local*) cache για αναγνώσεις και εγγραφές (read-write), τύπου *IntraBlockState* η οποία κρατά εσωτερικά τις εγγραφές (write-back) μέχρι το τέλος του block (όπως περιγράφηκε σε προηγούμενο κεφάλαιο).
 
 ### Νήμα προανάγνωσης
 
