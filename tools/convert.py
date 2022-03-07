@@ -5,7 +5,7 @@ import requests
 
 PRETTY = {
     'geth':            'Geth@12f0ff4/',
-    'erigon':          'Erigon@inline_uv/',
+    'erigon':          'Erigon-modified/',
     'original_erigon': 'Erigon@b1fef26/',
     'erigon_lib':      'Erigon-lib@143cd51/',
 }
@@ -112,11 +112,20 @@ def not_in_code(a):
                         if _t == '-': l1 = int(_l1)
                         else:         l1 = l0
                         if res:
-                            res.append('//...\n')
-                        res.extend(fls[l0-1:l1])
+                            res.append('...\n')
+                        res.extend(
+                            l if len(l) <= 90 else l[:87] + '...\n'
+                            for l in fls[l0-1:l1]
+                        )
                 #
                 # lines[i] = '```go\n' + ''.join(res) + '```\n' # + '*(απόσπασμα από `' + PRETTY[repo] + src + '`)*\n'
-                lines[i] = '```go\n' + PRETTY[repo] + src + ':' + lns + '\n```\n'
+                lines[i] = '''{\\vskip 2mm\\color{hrulecolor}\\hrule}
+```go
+''' + ''.join(res) + '''```
+{\\color{hrulecolor}\\hrule\\vskip 1mm}
+{\\tiny\\hfill `''' + PRETTY[repo] + src + lns + '''`}
+'''
+                # lines[i] = '```go\n' + PRETTY[repo] + src + ':' + lns + '\n```\n'
         except:
             print(line, file=sys.stderr)
             raise
