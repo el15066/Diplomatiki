@@ -1,22 +1,16 @@
 
-# Διπλωματική Εργασία
+# Διπλωματική Εργασία - Diploma Thesis
 
-## [Το πιο πρόσφατο PDF](Diplomatiki.pdf)
+## In English
 
----
----
----
----
+### Presentation
+Comming soon
 
-## Internal
+### Full text
+Not translated yet, fell free to send me a message if you're interested!
 
-#### Chapters markdown
+## Στα Ελληνικά
 
-- [Κεφάλαιο 1](main/chap_01.md)
-- [Κεφάλαιο 2](main/chap_02.md)
-- [Κεφάλαιο 3](main/chap_03.md)
-- [Κεφάλαιο 4](main/chap_04.md)
-- [Κεφάλαιο 5](main/chap_05.md)
-- [Κεφάλαιο 6](main/chap_06.md)
-- [Κεφάλαιο 7](main/chap_07.md)
-- [Κεφάλαιο 8](main/chap_08.md)
+### [Παρουσίαση (PDF)](main/Presentation.pdf)
+
+### [Κείμενο (PDF)](Diplomatiki.pdf)
