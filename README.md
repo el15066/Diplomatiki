@@ -3,14 +3,17 @@
 
 ## Στα Ελληνικά
 
-### [Παρουσίαση (PDF)](main/Presentation.pdf)
+### Παρουσίαση
+[Παρουσίαση (PDF)](main/Presentation.pdf)
 
-### [Κείμενο (PDF)](Diplomatiki.pdf)
+### Κείμενο
+[Κείμενο (PDF)](Diplomatiki.pdf)
 
 ## In English
 
 ### Presentation
-Comming soon
+[Presentation (PDF)](main/Presentation_en.pdf)
 
 ### Full text
-Not translated yet, fell free to send me a message if you're interested!
+Not translated yet, fell free to send me a message if you're interested!  
+Update from the future: or maybe just ask ChatGPT 😅
